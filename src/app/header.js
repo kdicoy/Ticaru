@@ -1,9 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Box, Grommet, Heading, ResponsiveContext, Text, Button, Tabs, Tab, FormField, TextInput } from 'grommet'
-import { breakPoints, headerTheme } from './themes'
-import { Attraction, Car, CircleInformation, Currency, TreeOption } from 'grommet-icons'
-
+import { Link, withRouter } from 'react-router-dom'
+import { Heading, Box, Menu, Anchor } from 'grommet'
+import { Menu as MenuIcon } from 'grommet-icons'
 const links = [
   {
     to: '/',
@@ -35,10 +33,6 @@ const links = [
     to: '/logout',
     text: 'Logout',
     auth: true
-  },
-  {
-    to: '/this-is-broken',
-    text: 'Broken Page'
   }
 ]
 
@@ -52,63 +46,86 @@ const isCurrent = (to, current) => {
   return false
 }
 
-const HeaderLink = ({ to, text, current }) => (
-  <Tab
-    className={isCurrent(to, current) ? 'current' : ''}
-    title={
-      <Link to={to}>
-        <RichTabTitle icon={<CircleInformation color="accent-1" />} label={text} />{' '}
-      </Link>
-    }
-  />
-)
-
-const RichTabTitle = ({ icon, label }) => (
-  <Box direction="row" align="center" gap="xsmall" margin="xsmall">
-    {icon}
-    <Text size="small">
-      <strong>{label}</strong>
-    </Text>
-  </Box>
-)
-
 class HeaderClass extends React.Component {
   state = {}
-  onActive = index => this.setState({ index })
-  render() {
-    const { index } = this.state
+  navigateRoute = route => {
+    this.props.history.push(route)
+  }
+  mobileMenuReducer = (result, link) => {
+    const { isAuthenticated } = this.props
+    const TheLink = { label: <div style={{width: '100vw', padding: '5px'}}>{link.text}</div>, onClick: () => this.navigateRoute(link.to) }
+    if (link.hasOwnProperty('auth')) {
+      if (link.auth && isAuthenticated) {
+        return [...result, TheLink]
+      } else if (!link.auth && !isAuthenticated) {
+        return [...result, TheLink]
+      }
+
+      return result
+    }
+    return [...result, TheLink]
+  }
+  renderFullScreen = () => {
     const { isAuthenticated, current } = this.props
     return (
-      <Grommet theme={breakPoints} full>
-        <ResponsiveContext.Consumer>
-          {size => (
-            <Box fill background="brand">
-              <Heading>Fragmatize</Heading>
-              <Grommet theme={headerTheme}>
-                <Tabs>
-                  {links.map((link, index) => {
-                    const TheLink = <HeaderLink key={index} current={current} {...link} />
+      <Box direction="row" justify="between" align="stretch" elevation="medium" style={{padding: '50px'}}>
+        <Box justify="center" align="start">
+          <Heading align="center" color="brand" style={{ margin: '0' }}>
+            Tracadence
+          </Heading>
+        </Box>
+        <Box justify="center" align="stretch" alignContent="stretch">
+          <Box direction="row" gap="xsmall">
+            {links.map(link => {
+              const TheLink = <Anchor key={link.to} color={isCurrent(link.to, current) ? 'neutral-2' : 'accent-1'} onClick={()=>this.navigateRoute(link.to)}>{link.text}</Anchor>
+              
+              if (link.hasOwnProperty('auth')) {
+                if (link.auth && isAuthenticated) {
+                  return TheLink
+                } else if (!link.auth && !isAuthenticated) {
+                  return TheLink
+                }
 
-                    if (link.hasOwnProperty('auth')) {
-                      if (link.auth && isAuthenticated) {
-                        return TheLink
-                      } else if (!link.auth && !isAuthenticated) {
-                        return TheLink
-                      }
+                return null
+              }
 
-                      return null
-                    }
-
-                    return TheLink
-                  })}
-                </Tabs>
-              </Grommet>
-            </Box>
-          )}
-        </ResponsiveContext.Consumer>
-      </Grommet>
+              return TheLink
+            })}
+          </Box>
+        </Box>
+      </Box>
     )
+  }
+
+  renderHalfScreen = () => {
+    return (
+      <Box direction="row" background="white" justify="start" align="stretch" elevation="medium">
+        <Box justify="center" align="stretch" alignContent="stretch" >
+          <Menu
+            align="stretch"
+            icon={<MenuIcon />}
+            messages={{
+              openMenu: 'Open Menu',
+              closeMenu: 'Close Menu'
+            }}
+            items={links.reduce(this.mobileMenuReducer, [])}
+          />
+        </Box>
+        <Box justify="center" align="center" fill="horizontal">
+          <Heading align="center" color="brand" style={{ margin: '0' }}>
+            Tracadence
+          </Heading>
+        </Box>
+      </Box>
+    )
+  }
+  render() {
+    const { size } = this.props
+
+    const headerBasedOnDisplay = size === 'xsmall' || size === 'small' ? this.renderHalfScreen() : this.renderFullScreen()
+
+    return <React.Fragment>{headerBasedOnDisplay}</React.Fragment>
   }
 }
 
-export default HeaderClass
+export default withRouter(HeaderClass)

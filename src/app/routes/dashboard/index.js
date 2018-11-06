@@ -1,30 +1,30 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Page from '../../components/page';
-
-const Dashboard = ({ currentUser }) => (
-  <Page id="dashboard" title="Dashboard" noCrawl>
-    <p>
-      We have a secret dashboard that only cool kids can access.<br />Notice
-      that refreshing this page will retain the logged in status!
-    </p>
-    <p>
-      <b>Name:</b> {currentUser.name}
-    </p>
-    <p>
-      <b>Email:</b> {currentUser.email}
-    </p>
-    <p>
-      <b>Password:</b> {currentUser.password}
-    </p>
-  </Page>
-);
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import Page from '../../components/page'
+import { Box } from 'grommet'
+//import ParticleEffectButton from 'react-particle-effect-button'
+import WeeklyBoard from '../../components/weekly-board';
+//import WizardForm from '../../components/new-task-form/WizardForm'
+class Dashboard extends PureComponent {
+  render() {
+    //const { currentUser } = this.props
+    return (
+      <Page id="dashboard" title="Dashboard" noCrawl>
+        <Box flex direction="column">
+          <Box flex align="center" justify="center">
+            <WeeklyBoard />
+          </Box>
+        </Box>
+      </Page>
+    )
+  }
+}
 
 const mapStateToProps = state => ({
   currentUser: state.auth.currentUser
-});
+})
 
 export default connect(
   mapStateToProps,
   null
-)(Dashboard);
+)(Dashboard)
