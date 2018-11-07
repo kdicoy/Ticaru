@@ -38,7 +38,7 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
+    // some basic styles to make the monday look a bit nicer
     userSelect: 'none',
     padding: grid * 2,
     margin: `0 0 ${grid}px 0`,
@@ -58,7 +58,7 @@ const getListStyle = isDraggingOver => ({
 
 class WeeklyBoard extends Component {
     state = {
-        items: getItems(10),
+        monday: getItems(10),
         selected: getItems(5, 10)
     };
 
@@ -68,7 +68,7 @@ class WeeklyBoard extends Component {
      * source arrays stored in the state.
      */
     id2List = {
-        droppable: 'items',
+        droppable: 'monday',
         tuesday: 'selected',
         wednesday: 'wednesday',
         thursday: 'thursday',
@@ -88,16 +88,16 @@ class WeeklyBoard extends Component {
         }
 
         if (source.droppableId === destination.droppableId) {
-            const items = reorder(
+            const monday = reorder(
                 this.getList(source.droppableId),
                 source.index,
                 destination.index
             );
 
-            let state = { items };
+            let state = { monday };
 
             if (source.droppableId === 'tuesday') {
-                state = { selected: items };
+                state = { selected: monday };
             }
 
             this.setState(state);
@@ -110,7 +110,7 @@ class WeeklyBoard extends Component {
             );
 
             this.setState({
-                items: result.droppable,
+                monday: result.droppable,
                 selected: result.tuesday
             });
         }
@@ -127,7 +127,7 @@ class WeeklyBoard extends Component {
                         <div
                             ref={provided.innerRef}
                             style={getListStyle(snapshot.isDraggingOver)}>
-                            {this.state.items.map((item, index) => (
+                            {this.state.monday.map((item, index) => (
                                 <Draggable
                                     key={item.id}
                                     draggableId={item.id}
