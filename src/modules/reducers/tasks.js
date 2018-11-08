@@ -1,59 +1,32 @@
+import * as types from "../actionTypes/tasks";
 
-
-export const SET_CURRENT_PROFILE = 'auth/SET_CURRENT_PROFILE';
-
-const id2List = {
-  monday: 'monday',
-  tuesday: 'selected',
-  wednesday: 'wednesday',
-  thursday: 'thursday',
-  friday: 'friday',
-  saturday: 'saturday',
-  sunday: 'sunday'
-};
+const getItems = (count, offset = 0) =>
+  Array.from({ length: count }, (v, k) => k).map(k => ({
+    id: `item-${k + offset}`,
+    content: `item ${k + offset}`
+  }));
 
 const initialState = {
   weeklyBoard: {
-    monday: [],
-    tuesday: [],
-    wednesday: [],
-    thursday: [],
-    friday: [],
-    saturday: [],
-    sunday: []
-  },
-
+    monday: getItems(1),
+    tuesday: getItems(1, 1),
+    wednesday: getItems(1, 2),
+    thursday: getItems(1, 3),
+    friday: getItems(1, 4),
+    saturday: getItems(1, 5),
+    sunday: getItems(1, 6)
+  }
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_CURRENT_PROFILE:
+    case types.INITIALIZE_WEEKLY_TASKS:
       return {
         ...state,
-        currentProfile: action.profile
+        weeklyBoard: { ...state.weeklyBoard, ...action.weeklyTasks }
       };
 
     default:
       return state;
   }
-};
-
-state = {
-  monday: getItems(10),
-  selected: getItems(5, 10)
-};
-
-/**
-* A semi-generic way to handle multiple lists. Matches
-* the IDs of the droppable container to the names of the
-* source arrays stored in the state.
-*/
-id2List = {
-  monday: 'monday',
-  tuesday: 'selected',
-  wednesday: 'wednesday',
-  thursday: 'thursday',
-  friday: 'friday',
-  saturday: 'saturday',
-  sunday: 'sunday'
 };
