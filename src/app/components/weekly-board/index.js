@@ -89,19 +89,13 @@ class WeeklyBoard extends Component {
     }
 
     if (source.droppableId === destination.droppableId) {
-      const monday = reorder(
+      const items = reorder(
         this.getList(source.droppableId),
         source.index,
         destination.index
       );
 
-      let state = { monday };
-
-      if (source.droppableId === "tuesday") {
-        state = { tuesday: monday };
-      }
-
-      this.setState(state);
+      this.props.setWeeklyBoard(items, source.droppableId, weeklyBoard);
     } else {
       const result = move(
         this.getList(source.droppableId),

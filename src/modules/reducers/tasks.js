@@ -20,7 +20,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.INITIALIZE_WEEKLY_TASKS:
+    case types.SET_WEEKLY_TASKS:
       return {
         ...state,
         weeklyBoard: { ...state.weeklyBoard, ...action.weeklyTasks }
