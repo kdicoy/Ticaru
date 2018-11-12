@@ -3,90 +3,42 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Heading } from "grommet";
 import { connect } from "react-redux";
 import { getWeeklyBoardState } from "../../../modules/selectors";
-// fake data generator
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k + offset}`,
-    content: `item ${k + offset}`
-  }));
-
+import PropTypes from "prop-types";
+import { moveWeeklyTasks } from "../../../modules/actions/tasks";
+import { reorder, move, getItemStyle, getListStyle } from "./drag-helpers";
 // a little function to help us with reordering the result
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+class TaskBoard extends Component {
+  constructor() {
+    super();
 
-  return result;
-};
-
-/**
- * Moves an item from one list to another list.
- */
-const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source);
-  const destClone = Array.from(destination);
-  const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-  destClone.splice(droppableDestination.index, 0, removed);
-
-  const result = {};
-  result[droppableSource.droppableId] = sourceClone;
-  result[droppableDestination.droppableId] = destClone;
-
-  return result;
-};
-
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the monday look a bit nicer
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
-
-  // styles we need to apply on draggables
-  ...draggableStyle
-});
-
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
-  padding: grid,
-  width: 250
-});
-
-class WeeklyBoard extends Component {
-  state = {
-    monday: getItems(10),
-    tuesday: getItems(5, 10)
-  };
+    this.id2List = {
+      monday: "monday",
+      tuesday: "tuesday",
+      wednesday: "wednesday",
+      thursday: "thursday",
+      friday: "friday",
+      saturday: "saturday",
+      sunday: "sunday"
+    };
+  }
 
   /**
    * A semi-generic way to handle multiple lists. Matches
    * the IDs of the droppable container to the names of the
    * source arrays stored in the state.
    */
-  id2List = {
-    droppable: "monday",
-    tuesday: "tuesday",
-    wednesday: "wednesday",
-    thursday: "thursday",
-    friday: "friday",
-    saturday: "saturday",
-    sunday: "sunday"
-  };
 
   getList = id => this.props.weeklyBoard[this.id2List[id]];
 
   onDragEnd = result => {
     const { source, destination } = result;
-
+    const { moveWeeklyTasks } = this.props;
+    console.log(source, "source", destination, "destination");
     // dropped outside the list
     if (!destination) {
       return;
     }
+    const weeklyBoardEdits = {};
 
     if (source.droppableId === destination.droppableId) {
       const items = reorder(
@@ -94,8 +46,7 @@ class WeeklyBoard extends Component {
         source.index,
         destination.index
       );
-
-      this.props.setWeeklyBoard(items, source.droppableId, weeklyBoard);
+      weeklyBoardEdits[source.droppableId] = items;
     } else {
       const result = move(
         this.getList(source.droppableId),
@@ -103,78 +54,70 @@ class WeeklyBoard extends Component {
         source,
         destination
       );
-      this.setState({
-        monday: result.droppable,
-        tuesday: result.tuesday
-      });
+      console.log(result, "result");
+      weeklyBoardEdits[source.droppableId] = result[source.droppableId];
+      weeklyBoardEdits[destination.droppableId] =
+        result[destination.droppableId];
+      console.log(weeklyBoardEdits, "weekly board Edits");
     }
+    moveWeeklyTasks(weeklyBoardEdits);
   };
 
+  renderDailyTaskColumn = day => {
+    const { weeklyBoard } = this.props;
+
+    return (
+      <React.Fragment key={day}>
+        <Heading style={{ lineHeight: 0 }}>{day}</Heading>
+        <Droppable droppableId={day}>
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+            >
+              {weeklyBoard[day].map((item, index) => (
+                <Draggable key={item.id} draggableId={item.id} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
+                    >
+                      {item.content}
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </React.Fragment>
+    );
+  };
   // Normally you would want to split things out into separate components.
   // But in this example everything is just done in one place for simplicity
   render() {
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <Heading>Monday</Heading>
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              {this.state.monday.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {item.content}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
+      <React.Fragment>
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          {Object.keys(this.id2List).map(day =>
+            this.renderDailyTaskColumn(day)
           )}
-        </Droppable>
-        <Heading>Tuesday</Heading>
-        <Droppable droppableId="tuesday">
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-            >
-              {this.state.tuesday.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {item.content}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+        </DragDropContext>
+      </React.Fragment>
     );
   }
 }
+
+TaskBoard.propTypes = {
+  weeklyBoard: PropTypes.object.isRequired,
+  moveWeeklyTasks: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => {
   return {
@@ -182,7 +125,9 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = { moveWeeklyTasks };
+
 export default connect(
   mapStateToProps,
-  null
-)(WeeklyBoard);
+  mapDispatchToProps
+)(TaskBoard);

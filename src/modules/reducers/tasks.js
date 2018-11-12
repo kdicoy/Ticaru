@@ -8,13 +8,13 @@ const getItems = (count, offset = 0) =>
 
 const initialState = {
   weeklyBoard: {
-    monday: getItems(1),
-    tuesday: getItems(1, 1),
-    wednesday: getItems(1, 2),
-    thursday: getItems(1, 3),
-    friday: getItems(1, 4),
-    saturday: getItems(1, 5),
-    sunday: getItems(1, 6)
+    monday: getItems(2),
+    tuesday: getItems(2, 2),
+    wednesday: getItems(2, 4),
+    thursday: getItems(2, 6),
+    friday: getItems(2, 8),
+    saturday: getItems(2, 10),
+    sunday: getItems(2, 12)
   }
 };
 
