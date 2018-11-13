@@ -1,1 +1,2 @@
-export const SET_WEEKLY_TASKS = "tasks/SET_WEEKLY_TASKS";
+export const MOVE_TASKS = "tasks/MOVE_TASKS";
+export const REMOVE_TASK = "tasks/REMOVE_TASK";

@@ -4,9 +4,11 @@ import { Heading } from "grommet";
 import { connect } from "react-redux";
 import { getWeeklyBoardState } from "../../../modules/selectors";
 import PropTypes from "prop-types";
-import { moveWeeklyTasks } from "../../../modules/actions/tasks";
+import { moveWeeklyTasks, resolveItem } from "../../../modules/actions/tasks";
 import { reorder, move, getItemStyle, getListStyle } from "./drag-helpers";
 // a little function to help us with reordering the result
+import TaskComponent from "../task-component";
+
 class TaskBoard extends Component {
   constructor() {
     super();
@@ -63,6 +65,12 @@ class TaskBoard extends Component {
     moveWeeklyTasks(weeklyBoardEdits);
   };
 
+  resolveItem = (id, day) => e => {
+    e.preventDefault();
+    console.log(id, "id", day, "day");
+    this.props.resolveItem(id, day);
+  };
+
   renderDailyTaskColumn = day => {
     const { weeklyBoard } = this.props;
 
@@ -87,7 +95,11 @@ class TaskBoard extends Component {
                         provided.draggableProps.style
                       )}
                     >
-                      {item.content}
+                      <TaskComponent
+                        item={item}
+                        resolveItem={this.resolveItem}
+                        day={day}
+                      />
                     </div>
                   )}
                 </Draggable>
@@ -125,7 +137,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = { moveWeeklyTasks };
+const mapDispatchToProps = { moveWeeklyTasks, resolveItem };
 
 export default connect(
   mapStateToProps,

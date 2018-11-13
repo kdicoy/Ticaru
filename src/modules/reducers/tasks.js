@@ -1,4 +1,5 @@
 import * as types from "../actionTypes/tasks";
+import update from "immutability-helper";
 
 const getItems = (count, offset = 0) =>
   Array.from({ length: count }, (v, k) => k).map(k => ({
@@ -20,10 +21,21 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_WEEKLY_TASKS:
+    case types.MOVE_TASKS:
       return {
         ...state,
         weeklyBoard: { ...state.weeklyBoard, ...action.weeklyTasks }
+      };
+    case types.REMOVE_TASK:
+      return {
+        ...state,
+        weeklyBoard: update(state.weeklyBoard, {
+          [action.day]: {
+            $set: state.weeklyBoard[action.day].filter(
+              ({ id }) => id != action.taskId
+            )
+          }
+        })
       };
 
     default:
