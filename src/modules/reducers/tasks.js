@@ -4,7 +4,8 @@ import update from "immutability-helper";
 const getItems = (count, offset = 0) =>
   Array.from({ length: count }, (v, k) => k).map(k => ({
     id: `item-${k + offset}`,
-    content: `item ${k + offset}`
+    content: `item ${k + offset}`,
+    resolved: false
   }));
 
 const initialState = {
@@ -26,13 +27,26 @@ export default (state = initialState, action) => {
         ...state,
         weeklyBoard: { ...state.weeklyBoard, ...action.weeklyTasks }
       };
+    case types.RESOLVED_TASK:
+      return {
+        ...state,
+        weeklyBoard: update(state.weeklyBoard, {
+          [action.day]: {
+            $set: state.weeklyBoard[action.day].map(item => {
+              if (item.id === action.taskId) {
+                return { ...item, resolved: true };
+              }
+            })
+          }
+        })
+      };
     case types.REMOVE_TASK:
       return {
         ...state,
         weeklyBoard: update(state.weeklyBoard, {
           [action.day]: {
             $set: state.weeklyBoard[action.day].filter(
-              ({ id }) => id != action.taskId
+              ({ id }) => id !== action.taskId
             )
           }
         })

@@ -1,6 +1,6 @@
 import React from "react";
 
-const TaskComponent = ({ item, resolveItem, day, toggledTrue }) => {
+const TaskComponent = ({ item, resolveItem, day }) => {
   return (
     <div
       style={{

@@ -5,7 +5,6 @@ export const moveWeeklyTasks = weeklyTasks => dispatch => {
 };
 
 export const resolveItem = (taskId, day) => dispatch => {
-  console.log(taskId, "taskID", day, "day");
   return dispatch({ type: types.REMOVE_TASK, day, taskId });
 };
 

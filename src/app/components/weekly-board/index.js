@@ -8,6 +8,7 @@ import { moveWeeklyTasks, resolveItem } from "../../../modules/actions/tasks";
 import { reorder, move, getItemStyle, getListStyle } from "./drag-helpers";
 // a little function to help us with reordering the result
 import TaskComponent from "../task-component";
+import ParticleEffectButton from "react-particle-effect-button";
 
 class TaskBoard extends Component {
   constructor() {
@@ -67,7 +68,6 @@ class TaskBoard extends Component {
 
   resolveItem = (id, day) => e => {
     e.preventDefault();
-    console.log(id, "id", day, "day");
     this.props.resolveItem(id, day);
   };
 
@@ -86,21 +86,26 @@ class TaskBoard extends Component {
               {weeklyBoard[day].map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
+                    <ParticleEffectButton
+                      color="#121019"
+                      hidden={item.resolved}
                     >
-                      <TaskComponent
-                        item={item}
-                        resolveItem={this.resolveItem}
-                        day={day}
-                      />
-                    </div>
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                      >
+                        <TaskComponent
+                          item={item}
+                          resolveItem={this.resolveItem}
+                          day={day}
+                        />
+                      </div>
+                    </ParticleEffectButton>
                   )}
                 </Draggable>
               ))}
