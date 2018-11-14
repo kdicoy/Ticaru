@@ -5,7 +5,12 @@ export const moveWeeklyTasks = weeklyTasks => dispatch => {
 };
 
 export const resolveItem = (taskId, day) => dispatch => {
-  return dispatch({ type: types.REMOVE_TASK, day, taskId });
+  dispatch({ type: types.RESOLVE_TASK, day, taskId });
+
+  return setTimeout(
+    () => dispatch({ type: types.REMOVE_TASK, day, taskId }),
+    1500
+  );
 };
 
 /* week{ monday: [{id: 1, },{}]

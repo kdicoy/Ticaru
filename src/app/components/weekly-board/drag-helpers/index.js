@@ -32,15 +32,13 @@ export const move = (
 const grid = 8;
 
 export const getItemStyle = (isDragging, draggableStyle) => ({
-  height: "20px",
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-  borderRadius: "5px",
+  height: "40px",
 
+  margin: `5px`,
+
+  width: "50vw",
   // change background colour if dragging
-  background: isDragging ? "#6AFF5E" : "#6AFF5E",
+  //background: isDragging ? "#6AFF5E" : "#6AFF5E",
 
   // styles we need to apply on draggables
   ...draggableStyle
@@ -51,5 +49,9 @@ export const getListStyle = isDraggingOver => ({
     ? "repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 20px)"
     : "white",
   padding: grid,
-  width: "75%"
+  width: "50vw",
+  display: "flex",
+  alignItems: "center",
+  flexDirection: "column",
+  justifyContent: "center"
 });

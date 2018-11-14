@@ -86,26 +86,21 @@ class TaskBoard extends Component {
               {weeklyBoard[day].map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
-                    <ParticleEffectButton
-                      color="#121019"
-                      hidden={item.resolved}
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
                     >
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        <TaskComponent
-                          item={item}
-                          resolveItem={this.resolveItem}
-                          day={day}
-                        />
-                      </div>
-                    </ParticleEffectButton>
+                      <TaskComponent
+                        item={item}
+                        resolveItem={this.resolveItem}
+                        day={day}
+                      />
+                    </div>
                   )}
                 </Draggable>
               ))}

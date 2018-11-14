@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
         ...state,
         weeklyBoard: { ...state.weeklyBoard, ...action.weeklyTasks }
       };
-    case types.RESOLVED_TASK:
+    case types.RESOLVE_TASK:
       return {
         ...state,
         weeklyBoard: update(state.weeklyBoard, {
@@ -35,6 +35,8 @@ export default (state = initialState, action) => {
             $set: state.weeklyBoard[action.day].map(item => {
               if (item.id === action.taskId) {
                 return { ...item, resolved: true };
+              } else {
+                return { ...item };
               }
             })
           }
