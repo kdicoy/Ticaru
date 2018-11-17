@@ -34,7 +34,7 @@ const grid = 8;
 export const getTaskStyle = (isDragging, draggableStyle) => ({
   height: "40px",
 
-  margin: `5px`,
+  margin: `0 0 ${grid}px 0`,
 
   width: "90%",
   display: "flex",

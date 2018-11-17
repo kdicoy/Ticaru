@@ -1,4 +1,5 @@
 import React from "react";
+import InputGoalField from "./input-goal-field";
 
 export const GoalCard = ({ goal, resolveGoal }) => {
   const {
@@ -21,10 +22,14 @@ export const GoalCard = ({ goal, resolveGoal }) => {
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
       }}
     >
-      <div>Final Goal: {id}</div>
-      <div>Quarterly Goal: {quarterly}</div>
-      <div>Monthly Goal: {monthly}</div>
-      <div>Weekly Goal: {weekly}</div>
+      <InputGoalField goalType="Final Goal" goalInitialInput={id} />
+      <InputGoalField goalType="Quarterly Goal" goalInitialInput={quarterly} />
+      <InputGoalField goalType="Monthly Goal" goalInitialInput={monthly} />
+      <InputGoalField
+        goalType="Weekly Goal"
+        timeToUpdate={true}
+        goalInitialInput={weekly}
+      />
       <div>Start Date: {start_date}</div>
       <div>End Date: {end_date}</div>
       <button className="resolve-circle-button" onClick={resolveGoal(goal.id)}>
