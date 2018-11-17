@@ -1,22 +1,72 @@
 import * as types from "../actionTypes/tasks";
 import update from "immutability-helper";
 
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k + offset}`,
-    content: `item ${k + offset}`,
-    resolved: false
-  }));
-
 const initialState = {
   weeklyBoard: {
-    monday: getItems(2),
-    tuesday: getItems(2, 2),
-    wednesday: getItems(2, 4),
-    thursday: getItems(2, 6),
-    friday: getItems(2, 8),
-    saturday: getItems(2, 10),
-    sunday: getItems(2, 12)
+    monday: [
+      {
+        task: "Workout at gym",
+        time: "7:00 am",
+        time_duration: 1,
+        time_units: "hours",
+        difficulty: 5,
+        points: 5,
+        goalId: "12% Body Fat"
+      },
+      {
+        task: "create section for repeatable tasks",
+        time: "9:15 am",
+        time_duration: 3,
+        time_units: "hours",
+        difficulty: 5,
+        points: 15,
+        goalId: "Finish Website MVP"
+      },
+      {
+        task: "send out 10 resumes",
+        time: "1:15 pm",
+        time_duration: 1,
+        time_units: "hours",
+        difficulty: 3,
+        points: 3,
+        goalId: "Find a Job"
+      },
+      {
+        task: "Create CV for Riot Games",
+        time: "2:15 pm",
+        time_duration: 1,
+        time_units: "hours",
+        difficulty: 5,
+        points: 5,
+        goalId: "Find a Job"
+      }
+    ],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [
+      {
+        task: "Do what Brock needs for Creator Arcade",
+        time: "9:15 am",
+        time_duration: 5,
+        time_units: "hours",
+        difficulty: 3,
+        points: 15,
+        goalId: "Update Creator Arcade"
+      }
+    ],
+    saturday: [],
+    sunday: [
+      {
+        task: "create means to add / edit goals",
+        time: "3:15 pm",
+        time_duration: 3,
+        time_units: "hours",
+        difficulty: 5,
+        points: 15,
+        goalId: "Finish Website MVP"
+      }
+    ]
   }
 };
 

@@ -31,12 +31,15 @@ export const move = (
 
 const grid = 8;
 
-export const getItemStyle = (isDragging, draggableStyle) => ({
+export const getTaskStyle = (isDragging, draggableStyle) => ({
   height: "40px",
 
   margin: `5px`,
 
-  width: "50vw",
+  width: "90%",
+  display: "flex",
+  userSelect: "none",
+
   // change background colour if dragging
   //background: isDragging ? "#6AFF5E" : "#6AFF5E",
 
@@ -44,12 +47,40 @@ export const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle
 });
 
-export const getListStyle = isDraggingOver => ({
+export const getTaskListStyle = isDraggingOver => ({
   background: isDraggingOver
     ? "repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 20px)"
     : "white",
   padding: grid,
-  width: "50vw",
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center"
+});
+
+export const getGoalStyle = (isDragging, draggableStyle) => ({
+  height: "auto",
+
+  margin: `5px`,
+  width: "90%",
+  display: "flex",
+  flexDirection: "column",
+  alignContent: "column",
+  justifyContent: "start",
+  // change background colour if dragging
+  //background: isDragging ? "#6AFF5E" : "#6AFF5E",
+
+  // styles we need to apply on draggables
+  ...draggableStyle
+});
+
+export const getGoalListStyle = isDraggingOver => ({
+  background: isDraggingOver
+    ? "repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 20px)"
+    : "transparent",
+  padding: grid,
+  width: "100%",
   display: "flex",
   alignItems: "center",
   flexDirection: "column",

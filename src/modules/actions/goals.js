@@ -1,5 +1,14 @@
 import * as types from "../actionTypes/goals";
 
+export const moveGoal = goalList => dispatch => {
+  return dispatch({ type: types.MOVE_GOAL, goalList });
+};
+
+export const resolveGoal = goalId => dispatch => {
+  console.log("RESOLVE GOAL", goalId);
+  dispatch({ type: types.REMOVE_GOAL, goalId });
+};
+
 export const getGoals = id => dispatch =>
   new Promise(resolve => {
     setTimeout(() => {

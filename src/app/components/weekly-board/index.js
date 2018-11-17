@@ -2,13 +2,19 @@ import React, { Component } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Heading } from "grommet";
 import { connect } from "react-redux";
-import { getWeeklyBoardState } from "../../../modules/selectors";
+import {
+  getWeeklyBoardState,
+  getGoalsColorState
+} from "../../../modules/selectors";
 import PropTypes from "prop-types";
-import { moveWeeklyTasks, resolveItem } from "../../../modules/actions/tasks";
-import { reorder, move, getItemStyle, getListStyle } from "./drag-helpers";
-// a little function to help us with reordering the result
-import TaskComponent from "../task-component";
-import ParticleEffectButton from "react-particle-effect-button";
+import { moveWeeklyTasks, resolveTask } from "../../../modules/actions/tasks";
+import {
+  reorder,
+  move,
+  getTaskStyle,
+  getTaskListStyle
+} from "../../helpers/drag-helpers";
+import TaskComponent from "./task-component";
 
 class TaskBoard extends Component {
   constructor() {
@@ -66,14 +72,13 @@ class TaskBoard extends Component {
     moveWeeklyTasks(weeklyBoardEdits);
   };
 
-  resolveItem = (id, day) => e => {
-    e.preventDefault();
-    this.props.resolveItem(id, day);
+  resolveTask = (id, day) => {
+    this.props.resolveTask(id, day);
   };
 
   renderDailyTaskColumn = day => {
-    const { weeklyBoard } = this.props;
-
+    const { weeklyBoard, goalsColors } = this.props;
+    console.log(goalsColors, "goals Colors");
     return (
       <React.Fragment key={day}>
         <Heading style={{ lineHeight: 0 }}>{day}</Heading>
@@ -81,29 +86,37 @@ class TaskBoard extends Component {
           {(provided, snapshot) => (
             <div
               ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
+              style={getTaskListStyle(snapshot.isDraggingOver)}
             >
-              {weeklyBoard[day].map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      <TaskComponent
-                        item={item}
-                        resolveItem={this.resolveItem}
-                        day={day}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
+              {weeklyBoard[day].map((item, index) => {
+                return (
+                  <Draggable
+                    key={item.task + index + day}
+                    draggableId={item.task + index + day}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getTaskStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                      >
+                        <TaskComponent
+                          item={item}
+                          resolveTask={this.resolveTask}
+                          day={day}
+                          goalColors={goalsColors[item.goalId]}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
+
               {provided.placeholder}
             </div>
           )}
@@ -133,11 +146,12 @@ TaskBoard.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    weeklyBoard: getWeeklyBoardState(state)
+    weeklyBoard: getWeeklyBoardState(state),
+    goalsColors: getGoalsColorState(state)
   };
 };
 
-const mapDispatchToProps = { moveWeeklyTasks, resolveItem };
+const mapDispatchToProps = { moveWeeklyTasks, resolveTask };
 
 export default connect(
   mapStateToProps,
