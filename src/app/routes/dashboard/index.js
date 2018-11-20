@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import Page from "../../components/page";
 import { Box, Button, Text, Heading } from "grommet";
-import WeeklyBoard from "../../components/weekly-board";
+import Taskboard from "../../components/task-board";
 import GoalsBoard from "../../components/goals/goal-board";
 import { getScreenSizeState } from "../../../modules/selectors";
 import CenterModal from "../../components/center-modals";
@@ -35,7 +35,7 @@ class Dashboard extends PureComponent {
           )}
           <Box flex direction="column">
             <Box flex align="center" justify="center">
-              <WeeklyBoard />
+              <Taskboard />
             </Box>
           </Box>
         </Box>

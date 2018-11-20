@@ -20,7 +20,7 @@ import {
 } from "../../helpers/drag-helpers";
 import TaskComponent from "./task-component";
 
-class TaskBoard extends Component {
+export class TaskBoard extends Component {
   constructor() {
     super();
 

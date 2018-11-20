@@ -47,7 +47,6 @@ const isCurrent = (to, current) => {
 };
 
 class HeaderClass extends React.Component {
-  state = {};
   navigateRoute = route => {
     this.props.history.push(route);
   };

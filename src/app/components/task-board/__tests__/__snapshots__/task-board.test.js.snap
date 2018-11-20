@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WeeklyBoard should render correctly in "debug" mode 1`] = `
+<Fragment>
+  <DragDropContext
+    onDragEnd={[Function]}
+  >
+    <div
+      style={
+        Object {
+          "padding": 20,
+        }
+      }
+    >
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="monday"
+        ignoreContainerClipping={false}
+        isDropDisabled={false}
+        type="DEFAULT"
+      >
+        <Component />
+      </Connect(Droppable)>
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="tuesday"
+        ignoreContainerClipping={false}
+        isDropDisabled={false}
+        type="DEFAULT"
+      >
+        <Component />
+      </Connect(Droppable)>
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="wednesday"
+        ignoreContainerClipping={false}
+        isDropDisabled={false}
+        type="DEFAULT"
+      >
+        <Component />
+      </Connect(Droppable)>
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="thursday"
+        ignoreContainerClipping={false}
+        isDropDisabled={false}
+        type="DEFAULT"
+      >
+        <Component />
+      </Connect(Droppable)>
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="friday"
+        ignoreContainerClipping={false}
+        isDropDisabled={false}
+        type="DEFAULT"
+      >
+        <Component />
+      </Connect(Droppable)>
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="saturday"
+        ignoreContainerClipping={false}
+        isDropDisabled={false}
+        type="DEFAULT"
+      >
+        <Component />
+      </Connect(Droppable)>
+      <Connect(Droppable)
+        direction="vertical"
+        droppableId="sunday"
+        ignoreContainerClipping={false}
+        isDropDisabled={false}
+        type="DEFAULT"
+      >
+        <Component />
+      </Connect(Droppable)>
+    </div>
+  </DragDropContext>
+</Fragment>
+`;
