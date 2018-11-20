@@ -1,25 +1,25 @@
 import * as types from "../actionTypes/tasks";
 
-export const moveWeeklyTasks = weeklyTasks => dispatch => {
-  return dispatch({ type: types.MOVE_TASKS, weeklyTasks });
+export const reorderTasksInADay = (reorderedTasks, day) => dispatch => {
+  return dispatch({ type: types.REORDER_TASKS_IN_A_DAY, reorderedTasks, day });
 };
 
-export const resolveTask = (taskId, day) => dispatch => {
-  dispatch({ type: types.REMOVE_TASK, day, taskId });
-};
-
-/* week{ monday: [{id: 1, },{}]
-
-case 'SOME_ACTION':
-  return update(state, { 
-    contents: { 
-      [action.id]: {
-        text: {$set: action.payload}
-      }
-    }
+export const moveTaskToAnotherDay = movedTasksResult => dispatch => {
+  console.log(movedTasksResult, "moved Task");
+  return dispatch({
+    type: types.MOVE_TASK_TO_ANOTHER_DAY,
+    movedTasksResult
   });
+};
 
-}
+export const resolveTask = task => dispatch => {
+  dispatch({ type: types.REMOVE_TASK, task });
+};
 
-
-*/
+export const updateWithEditedTask = (previousTask, updatedTask) => dispatch => {
+  if (previousTask.day !== updatedTask.day) {
+    dispatch({ type: types.UPDATE_TASK_AND_MOVE, previousTask, updatedTask });
+  } else {
+    dispatch({ type: types.UPDATE_TASK_AND_NO_MOVE, updatedTask });
+  }
+};

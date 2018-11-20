@@ -23,8 +23,15 @@ export const GoalCard = ({ goal, resolveGoal }) => {
       }}
     >
       <InputGoalField goalType="Final Goal" goalInitialInput={id} />
-      <InputGoalField goalType="Quarterly Goal" goalInitialInput={quarterly} />
-      <InputGoalField goalType="Monthly Goal" goalInitialInput={monthly} />
+      {quarterly && (
+        <InputGoalField
+          goalType="Quarterly Goal"
+          goalInitialInput={quarterly}
+        />
+      )}
+      {quarterly && (
+        <InputGoalField goalType="Monthly Goal" goalInitialInput={monthly} />
+      )}
       <InputGoalField
         goalType="Weekly Goal"
         timeToUpdate={true}

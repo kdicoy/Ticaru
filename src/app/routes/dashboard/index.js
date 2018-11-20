@@ -5,7 +5,7 @@ import { Box, Button, Text, Heading } from "grommet";
 import WeeklyBoard from "../../components/weekly-board";
 import GoalsBoard from "../../components/goals/goal-board";
 import { getScreenSizeState } from "../../../modules/selectors";
-
+import CenterModal from "../../components/center-modals";
 class Dashboard extends PureComponent {
   render() {
     const { screenSize } = this.props;
@@ -13,6 +13,7 @@ class Dashboard extends PureComponent {
     console.log(screenSize, "screenSize", isDesktopSize);
     return (
       <Page id="dashboard" title="Dashboard" noCrawl>
+        <CenterModal />
         <Box flex direction="row">
           {isDesktopSize && (
             <Box

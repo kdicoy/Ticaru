@@ -26,3 +26,26 @@ export const getScreenSizeState = createSelector(
   getScreenSize,
   screenSize => screenSize
 );
+
+//MODAL
+
+const getModalContent = state => state.modal.modalContent;
+
+export const getModalContentState = createSelector(
+  getModalContent,
+  modalContent => modalContent
+);
+
+const getModalIsOpen = state => state.modal.modalIsOpen;
+
+export const getModalIsOpenState = createSelector(
+  getModalIsOpen,
+  modalIsOpen => modalIsOpen
+);
+
+const getModalContentType = state => state.modal.modalContentType;
+
+export const getModalContentTypeState = createSelector(
+  getModalContentType,
+  modalContentType => modalContentType
+);
