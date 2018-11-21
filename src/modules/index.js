@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import { reducer as formReducer } from "redux-form";
 import goals from "./reducers/goals";
 import auth from "./auth";
 import profile from "./profile";
@@ -12,6 +11,5 @@ export default combineReducers({
   goals,
   tasks,
   general,
-  modal,
-  form: formReducer
+  modal
 });

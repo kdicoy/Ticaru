@@ -73,7 +73,9 @@ export class TaskBoard extends Component {
     }
   };
 
-  resolveTask = (id, day) => {
+  resolveTask = (id, day) => event => {
+    event.preventDefault();
+    event.stopPropagation();
     this.props.resolveTask(id, day);
   };
 

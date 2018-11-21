@@ -32,7 +32,7 @@ const initialState = {
       color: "black"
     },
     {
-      id: "Find a Job",
+      id: "Find a new job",
       weekly: "Send out Resumes",
       start_date: "11-16-2018",
       end_date: "Until Found",
@@ -41,7 +41,7 @@ const initialState = {
     }
   ],
   goalsColors: {
-    "Find a Job": {
+    "Find a new job": {
       backgroundColor: "purple",
       color: "white"
     },
@@ -56,6 +56,18 @@ const initialState = {
     "12% Body Fat": {
       backgroundColor: "lightblue",
       color: "green"
+    }
+  },
+  userInputGoalProperties: {
+    "12% Body Fat": {
+      weight: {
+        type: "number",
+        required: true
+      },
+      picture: {
+        type: "image",
+        required: false
+      }
     }
   }
 };

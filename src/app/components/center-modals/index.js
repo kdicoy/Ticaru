@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import {
   getModalContentState,
   getModalIsOpenState,
-  getModalContentTypeState
+  getModalContentTypeState,
+  getUserInputGoalPropertiesState
 } from "../../../modules/selectors";
 import { closeModalAndClearConents } from "../../../modules/actions/modal";
 import { updateWithEditedTask } from "../../../modules/actions/tasks";
 //import { updateGoal } from '../../modules/actions/modal'
-import EditTaskForm from "./EditTaskForm";
-import EditGoalForm from "./EditGoalForm";
+import EditTaskForm from "./edit-task-form";
+import EditGoalForm from "./edit-goal-form";
 import { Box, Layer } from "grommet";
 
 class CenterModal extends PureComponent {
@@ -25,7 +26,8 @@ class CenterModal extends PureComponent {
       modalIsOpen,
       modalContentType,
       closeModalAndClearConents,
-      modalContent
+      modalContent,
+      userInputGoalPropertiesState
     } = this.props;
     return (
       <Box align="start">
@@ -44,6 +46,7 @@ class CenterModal extends PureComponent {
                 updateWithEditedTaskAndCloseModal={
                   this.updateWithEditedTaskAndCloseModal
                 }
+                userInputGoalProperties={userInputGoalProperties}
               />
             )}
             {modalContentType === "goal" && (
@@ -60,7 +63,8 @@ const mapStateToProps = state => {
   return {
     modalContent: getModalContentState(state),
     modalContentType: getModalContentTypeState(state),
-    modalIsOpen: getModalIsOpenState(state)
+    modalIsOpen: getModalIsOpenState(state),
+    userInputGoalProperties: getUserInputGoalPropertiesState(state)
   };
 };
 

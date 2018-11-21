@@ -6,7 +6,7 @@ const initialState = {
   weeklyBoard: {
     monday: [
       {
-        id: 1,
+        id: "TASK1",
         task: "Workout at gym",
         time: "7:00 am",
         time_duration: 1,
@@ -17,7 +17,7 @@ const initialState = {
         goalId: "12% Body Fat"
       },
       {
-        id: 2,
+        id: "TASK2",
         task:
           "create section for repeatable tasks and then go back to the gym and then do something crazy what happens if long text",
         time: "9:15 am",
@@ -29,7 +29,7 @@ const initialState = {
         goalId: "Finish Website MVP"
       },
       {
-        id: 3,
+        id: "TASK3",
         task: "send out 10 resumes",
         time: "1:15 pm",
         time_duration: 1,
@@ -37,10 +37,10 @@ const initialState = {
         difficulty: 3,
         points: 3,
         day: days.monday,
-        goalId: "Find a Job"
+        goalId: "Find a new job"
       },
       {
-        id: 4,
+        id: "TASK4",
         task: "Create CV for Riot Games",
         time: "2:15 pm",
         time_duration: 1,
@@ -48,7 +48,7 @@ const initialState = {
         difficulty: 5,
         points: 5,
         day: days.monday,
-        goalId: "Find a Job"
+        goalId: "Find a new job"
       }
     ],
     tuesday: [],
@@ -56,7 +56,7 @@ const initialState = {
     thursday: [],
     friday: [
       {
-        id: 5,
+        id: "TASK5",
         task: "Do what Brock needs for Creator Arcade",
         time: "9:15 am",
         time_duration: 5,
@@ -70,7 +70,7 @@ const initialState = {
     saturday: [],
     sunday: [
       {
-        id: 6,
+        id: "TASK6",
         task: "create means to add / edit goals",
         time: "3:15 pm",
         time_duration: 3,
@@ -80,6 +80,13 @@ const initialState = {
         day: days.sunday,
         goalId: "Finish Website MVP"
       }
+    ]
+  },
+  subTasks: {
+    TASK6: [
+      { id: "1a", task: "something something" },
+      { id: "1b", task: "something2 something2" },
+      { id: "1c", task: "something2 something2" }
     ]
   }
 };

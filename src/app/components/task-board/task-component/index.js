@@ -47,10 +47,7 @@ export const TaskComponent = ({
           /8
         </div>
         <div>{points} points</div>
-        <button
-          className="resolve-circle-button"
-          onClick={() => resolveTask(item)}
-        >
+        <button className="resolve-circle-button" onClick={resolveTask(item)}>
           <i className="ion-ios-arrow-down" />
         </button>
       </div>

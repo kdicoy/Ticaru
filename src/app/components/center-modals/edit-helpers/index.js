@@ -18,3 +18,16 @@ export const createEditableTaskObject = obj => {
   });
   return editableTaskObject;
 };
+/*
+validationObject = {
+  task: value => value.length > 0,
+  time: value => //moment is valid,
+  time_duration: // is number,
+  time_units: // is valid unit
+  difficulty: // is number drop down,
+  day: true, //drop down
+};
+*/
+export const taskValidation = (value, key) => {
+  return "";
+};

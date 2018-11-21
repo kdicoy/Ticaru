@@ -18,6 +18,15 @@ export const getGoalsColorState = createSelector(
   goalsColors => goalsColors
 );
 
+const getUserInputGoalProperties = state => state.goals.userInputGoalProperties;
+
+export const getUserInputGoalPropertiesState = createSelector(
+  getUserInputGoalProperties,
+  getModalContent,
+  (modalContent, userInputGoalProperties) =>
+    userInputGoalProperties[modalContent.goalId]
+);
+
 //GENERAL
 
 const getScreenSize = state => state.general.screenSize;
