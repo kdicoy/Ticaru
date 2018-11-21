@@ -5,24 +5,10 @@ import CustomTextInput from "../custom-text-input";
 import * as constants from "../../../constants/validation-constants";
 
 class EditTaskForm extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = { ...createEditableTaskObject(props.task) };
-  }
-  updateTaskAndCloseModal = e => {
-    const { task, updateWithEditedTaskAndCloseModal } = this.props;
-    e.preventDefault();
-    updateWithEditedTaskAndCloseModal(task, {
-      ...task,
-      ...this.state
-    });
+  state = {
+    error: ""
   };
-
-  updateTaskState = value => {
-    this.setState({ [key]: value });
-  };
-
-  renderInputs = key => {
+  renderCustomInput = key => {
     userInputGoalProperties[key] &&
     userInputGoalProperties[key][constants.required]
       ? true
@@ -34,19 +20,31 @@ class EditTaskForm extends PureComponent {
     return (
       <CustomTextInput
         taskProperty={key}
-        handleUpdateEditableTaskState={this.updateTaskState}
+        handleUpdateEditableTaskState={this.updateState}
         storedTaskValue={`${this.state[key]}`}
         customValidationRequired={customValidationRequired}
         validationType={validationType}
+        setErrorState={this.setErrorState}
       />
     );
   };
-  render() {
-    const { userInputGoalProperties } = this.props;
+  passedValidationUpdateTaskAndCloseModal = () => {
+    if (this.state.error) {
+      alert(this.state.error);
+    } else {
+      this.props.updateTaskAndCloseModal();
+    }
+  };
+  setErrorState = error => {
+    this.setState({ error });
+  };
 
+  render() {
     return (
       <div style={{ padding: "40px", minWidth: "500px" }}>
-        {Object.keys(this.state).map(key => this.renderInputs(key))}
+        {Object.keys(this.props.editableTaskState).map(key =>
+          this.renderCustomInput(key)
+        )}
         <button onClick={this.updateTaskAndCloseModal}>UPDATE AND SAVE</button>
       </div>
     );

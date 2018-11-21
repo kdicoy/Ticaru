@@ -1,3 +1,5 @@
+import * as errors from "./errors";
+
 const editableProperties = {
   task: true,
   time: true,
@@ -26,8 +28,14 @@ validationObject = {
   time_units: // is valid unit
   difficulty: // is number drop down,
   day: true, //drop down
-};
-*/
+};*/
+
+export const defaultValidation = (value, key) => {};
+
 export const taskValidation = (value, key) => {
-  return "";
+  switch (key) {
+    case "task":
+      return value.length > 0 ? "" : errors.inputRequired;
+  }
+  return validate[key](value);
 };

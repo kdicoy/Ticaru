@@ -12,8 +12,29 @@ import { updateWithEditedTask } from "../../../modules/actions/tasks";
 import EditTaskForm from "./edit-task-form";
 import EditGoalForm from "./edit-goal-form";
 import { Box, Layer } from "grommet";
+import {
+  createEditableTaskObject,
+  createEditableGoalObject
+} from "./edit-helpers";
 
 class CenterModal extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = { ...createEditableTaskObject(props.task) };
+    switch (props.modalContentType) {
+      case "task":
+        this.state = { ...createEditableTaskObject(props.task) };
+        break;
+      case "goal":
+        this.state = { ...createEditableGoalObject(props.task) };
+        break;
+      default:
+        break;
+    }
+  }
+  updateState = value => {
+    this.setState({ [key]: value });
+  };
   updateWithEditedTaskAndCloseModal = (previousTask, updatedTask) => {
     const { updateWithEditedTask, closeModalAndClearConents } = this.props;
     console.log(previousTask, "previous Task", updatedTask, "updatedTask");
@@ -27,7 +48,7 @@ class CenterModal extends PureComponent {
       modalContentType,
       closeModalAndClearConents,
       modalContent,
-      userInputGoalPropertiesState
+      userInputGoalProperties
     } = this.props;
     return (
       <Box align="start">
@@ -43,10 +64,12 @@ class CenterModal extends PureComponent {
             {modalContentType === "task" && (
               <EditTaskForm
                 task={modalContent}
+                updateState={this.updateState}
                 updateWithEditedTaskAndCloseModal={
                   this.updateWithEditedTaskAndCloseModal
                 }
                 userInputGoalProperties={userInputGoalProperties}
+                editableTaskState={this.state}
               />
             )}
             {modalContentType === "goal" && (

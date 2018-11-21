@@ -21,6 +21,7 @@
     "informed": "^1.10.9",
     "js-cookie": "^2.2.0",
     "md5-file": "^4.0.0",
+    "moment": "^2.22.2",
     "morgan": "^1.9.1",
     "query-string": "^6.2.0",
     "react": "^16.5.2",
