@@ -1,19 +1,19 @@
-import React from "react";
-import { shallow } from "enzyme";
-import { TaskBoard } from "../index";
+import React from 'react';
+import { shallow } from 'enzyme';
+import { TaskBoard } from '../index';
 
 const initialState = {
   weeklyBoard: {
-    monday: [],
-    tuesday: [],
-    wednesday: [],
-    thursday: [],
-    friday: [],
-    saturday: [],
-    sunday: []
-  }
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+    Sunday: [],
+  },
 };
-describe("WeeklyBoard", () => {
+describe('WeeklyBoard', () => {
   it('should render correctly in "debug" mode', () => {
     const component = shallow(<TaskBoard debug {...initialState} />);
 

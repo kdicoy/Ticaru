@@ -1,15 +1,15 @@
-import React, { PureComponent } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { connect } from "react-redux";
-import { getGoalsState } from "../../../../modules/selectors";
-import PropTypes from "prop-types";
-import { moveGoal, resolveGoal } from "../../../../modules/actions/goals";
+import React, { PureComponent } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { connect } from 'react-redux';
+import { getGoalsState } from '../../../../modules/selectors';
+import PropTypes from 'prop-types';
+import { moveGoal, resolveGoal } from '../../../../modules/actions/goals';
 import {
   reorder,
   getGoalStyle,
-  getGoalListStyle
-} from "../../../helpers/drag-helpers";
-import GoalCard from "../goal-card";
+  getGoalListStyle,
+} from '../../../helpers/drag-helpers';
+import GoalCard from '../goal-card';
 
 class GoalBoard extends PureComponent {
   onDragEnd = result => {
@@ -27,12 +27,12 @@ class GoalBoard extends PureComponent {
   };
   resolveGoal = id => e => {
     e.preventDefault();
-    console.log("ID", id);
+    console.log('ID', id);
     this.props.resolveGoal(id);
   };
   render() {
     const { goalsList } = this.props;
-    console.log(goalsList, "goalsLIST");
+    console.log(goalsList, 'goalsLIST');
     return (
       <React.Fragment>
         <DragDropContext onDragEnd={this.onDragEnd}>
@@ -72,12 +72,12 @@ class GoalBoard extends PureComponent {
 GoalBoard.propTypes = {
   goalsList: PropTypes.array.isRequired,
   moveGoal: PropTypes.func.isRequired,
-  resolveGoal: PropTypes.func.isRequired
+  resolveGoal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
-    goalsList: getGoalsState(state)
+    goalsList: getGoalsState(state),
   };
 };
 

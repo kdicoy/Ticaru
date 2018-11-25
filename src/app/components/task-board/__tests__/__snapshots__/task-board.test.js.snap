@@ -14,7 +14,7 @@ exports[`WeeklyBoard should render correctly in "debug" mode 1`] = `
     >
       <Connect(Droppable)
         direction="vertical"
-        droppableId="monday"
+        droppableId="Monday"
         ignoreContainerClipping={false}
         isDropDisabled={false}
         type="DEFAULT"
@@ -23,7 +23,7 @@ exports[`WeeklyBoard should render correctly in "debug" mode 1`] = `
       </Connect(Droppable)>
       <Connect(Droppable)
         direction="vertical"
-        droppableId="tuesday"
+        droppableId="Tuesday"
         ignoreContainerClipping={false}
         isDropDisabled={false}
         type="DEFAULT"
@@ -32,7 +32,7 @@ exports[`WeeklyBoard should render correctly in "debug" mode 1`] = `
       </Connect(Droppable)>
       <Connect(Droppable)
         direction="vertical"
-        droppableId="wednesday"
+        droppableId="Wednesday"
         ignoreContainerClipping={false}
         isDropDisabled={false}
         type="DEFAULT"
@@ -41,7 +41,7 @@ exports[`WeeklyBoard should render correctly in "debug" mode 1`] = `
       </Connect(Droppable)>
       <Connect(Droppable)
         direction="vertical"
-        droppableId="thursday"
+        droppableId="Thursday"
         ignoreContainerClipping={false}
         isDropDisabled={false}
         type="DEFAULT"
@@ -50,7 +50,7 @@ exports[`WeeklyBoard should render correctly in "debug" mode 1`] = `
       </Connect(Droppable)>
       <Connect(Droppable)
         direction="vertical"
-        droppableId="friday"
+        droppableId="Friday"
         ignoreContainerClipping={false}
         isDropDisabled={false}
         type="DEFAULT"
@@ -59,7 +59,7 @@ exports[`WeeklyBoard should render correctly in "debug" mode 1`] = `
       </Connect(Droppable)>
       <Connect(Droppable)
         direction="vertical"
-        droppableId="saturday"
+        droppableId="Saturday"
         ignoreContainerClipping={false}
         isDropDisabled={false}
         type="DEFAULT"
@@ -68,7 +68,7 @@ exports[`WeeklyBoard should render correctly in "debug" mode 1`] = `
       </Connect(Droppable)>
       <Connect(Droppable)
         direction="vertical"
-        droppableId="sunday"
+        droppableId="Sunday"
         ignoreContainerClipping={false}
         isDropDisabled={false}
         type="DEFAULT"

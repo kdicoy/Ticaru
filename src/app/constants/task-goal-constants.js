@@ -1,3 +1,3 @@
-export const task = "task";
+export const task = 'task';
 
-export const goal = "goal";
+export const goal = 'goal';

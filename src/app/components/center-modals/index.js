@@ -1,55 +1,16 @@
-import React, { PureComponent } from "react";
-import { connect } from "react-redux";
-import {
-  getModalContentState,
-  getModalIsOpenState,
-  getModalContentTypeState,
-  getUserInputGoalPropertiesState
-} from "../../../modules/selectors";
-import { closeModalAndClearConents } from "../../../modules/actions/modal";
-import { updateWithEditedTask } from "../../../modules/actions/tasks";
-//import { updateGoal } from '../../modules/actions/modal'
-import EditTaskForm from "./edit-task-form";
-import EditGoalForm from "./edit-goal-form";
-import { Box, Layer } from "grommet";
-import {
-  createEditableTaskObject,
-  createEditableGoalObject
-} from "./edit-helpers";
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { Box, Layer } from 'grommet';
+import PropTypes from 'prop-types';
+
+import { getModalIsOpenState } from '../../../modules/selectors';
+import { closeModalAndClearConents } from '../../../modules/actions/modal';
+import ModalContentContainer from './modal-content-container';
 
 class CenterModal extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = { ...createEditableTaskObject(props.task) };
-    switch (props.modalContentType) {
-      case "task":
-        this.state = { ...createEditableTaskObject(props.task) };
-        break;
-      case "goal":
-        this.state = { ...createEditableGoalObject(props.task) };
-        break;
-      default:
-        break;
-    }
-  }
-  updateState = value => {
-    this.setState({ [key]: value });
-  };
-  updateWithEditedTaskAndCloseModal = (previousTask, updatedTask) => {
-    const { updateWithEditedTask, closeModalAndClearConents } = this.props;
-    console.log(previousTask, "previous Task", updatedTask, "updatedTask");
-    updateWithEditedTask(previousTask, updatedTask);
-    closeModalAndClearConents();
-  };
-
   render() {
-    const {
-      modalIsOpen,
-      modalContentType,
-      closeModalAndClearConents,
-      modalContent,
-      userInputGoalProperties
-    } = this.props;
+    const { modalIsOpen, closeModalAndClearConents } = this.props;
+    console.log(modalIsOpen, 'MODAL IS OPEN');
     return (
       <Box align="start">
         {modalIsOpen && (
@@ -60,21 +21,11 @@ class CenterModal extends PureComponent {
             onClickOutside={closeModalAndClearConents}
             onEsc={closeModalAndClearConents}
             margin="medium"
+            style={{ height: '100%' }}
           >
-            {modalContentType === "task" && (
-              <EditTaskForm
-                task={modalContent}
-                updateState={this.updateState}
-                updateWithEditedTaskAndCloseModal={
-                  this.updateWithEditedTaskAndCloseModal
-                }
-                userInputGoalProperties={userInputGoalProperties}
-                editableTaskState={this.state}
-              />
-            )}
-            {modalContentType === "goal" && (
-              <EditGoalForm goal={modalContent} />
-            )}
+            <ModalContentContainer
+              closeModalAndClearConents={closeModalAndClearConents}
+            />
           </Layer>
         )}
       </Box>
@@ -82,16 +33,16 @@ class CenterModal extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    modalContent: getModalContentState(state),
-    modalContentType: getModalContentTypeState(state),
-    modalIsOpen: getModalIsOpenState(state),
-    userInputGoalProperties: getUserInputGoalPropertiesState(state)
-  };
+CenterModal.propTypes = {
+  modalIsOpen: PropTypes.bool.isRequired,
+  closeModalAndClearConents: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = { closeModalAndClearConents, updateWithEditedTask };
+const mapStateToProps = state => ({
+  modalIsOpen: getModalIsOpenState(state),
+});
+
+const mapDispatchToProps = { closeModalAndClearConents };
 
 export default connect(
   mapStateToProps,

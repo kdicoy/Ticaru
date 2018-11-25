@@ -15,7 +15,7 @@ export default (url = '/') => {
   // Create a history depending on the environment
   const history = isServer
     ? createMemoryHistory({
-        initialEntries: [url]
+        initialEntries: [url],
       })
     : createBrowserHistory();
 
@@ -53,6 +53,6 @@ export default (url = '/') => {
 
   return {
     store,
-    history
+    history,
   };
 };

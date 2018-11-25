@@ -6,7 +6,7 @@ import Page from '../../components/page';
 
 import {
   getCurrentProfile,
-  removeCurrentProfile
+  removeCurrentProfile,
 } from '../../../modules/profile';
 
 const frontload = async props =>
@@ -48,7 +48,7 @@ class Profile extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentProfile: state.profile.currentProfile
+  currentProfile: state.profile.currentProfile,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -60,6 +60,6 @@ export default connect(
 )(
   frontloadConnect(frontload, {
     onMount: true,
-    onUpdate: false
+    onUpdate: false,
   })(Profile)
 );

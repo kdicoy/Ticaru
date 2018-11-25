@@ -1,12 +1,12 @@
-import { createSelector } from "reselect";
-//TASKS
+import { createSelector } from 'reselect';
+// TASKS
 const getWeeklyBoard = state => state.tasks.weeklyBoard;
 // reselect function
 export const getWeeklyBoardState = createSelector(
   getWeeklyBoard,
   weeklyBoard => weeklyBoard
 );
-//GOALS
+// GOALS
 const getGoals = state => state.goals.goalsList;
 
 export const getGoalsState = createSelector(getGoals, goalsList => goalsList);
@@ -18,16 +18,7 @@ export const getGoalsColorState = createSelector(
   goalsColors => goalsColors
 );
 
-const getUserInputGoalProperties = state => state.goals.userInputGoalProperties;
-
-export const getUserInputGoalPropertiesState = createSelector(
-  getUserInputGoalProperties,
-  getModalContent,
-  (modalContent, userInputGoalProperties) =>
-    userInputGoalProperties[modalContent.goalId]
-);
-
-//GENERAL
+// GENERAL
 
 const getScreenSize = state => state.general.screenSize;
 
@@ -36,7 +27,7 @@ export const getScreenSizeState = createSelector(
   screenSize => screenSize
 );
 
-//MODAL
+// MODAL
 
 const getModalContent = state => state.modal.modalContent;
 
@@ -57,4 +48,13 @@ const getModalContentType = state => state.modal.modalContentType;
 export const getModalContentTypeState = createSelector(
   getModalContentType,
   modalContentType => modalContentType
+);
+
+const getUserInputGoalProperties = state => state.goals.userInputGoalProperties;
+
+export const getUserInputGoalPropertiesState = createSelector(
+  getUserInputGoalProperties,
+  getModalContent,
+  (userInputGoalProperties, modalContent) =>
+    userInputGoalProperties[modalContent.goalId] || {}
 );

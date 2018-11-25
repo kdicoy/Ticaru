@@ -1,44 +1,42 @@
 // The basics
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { withRouter } from 'react-router';
 
 // Action creators and helpers
-import { establishCurrentUser } from "../modules/auth";
-import { isServer } from "../store";
+import { Grommet, ResponsiveContext, Box } from 'grommet';
+import { establishCurrentUser } from '../modules/auth';
+import { isServer } from '../store';
 
-import Header from "./header";
-import Routes from "./routes";
-import { breakPoints } from "./themes";
-import { Grommet, ResponsiveContext, Box } from "grommet";
-import { setScreenSize } from "../modules/actions/general";
-import "./app.css";
+import Header from './Header';
+import Routes from './routes';
+import { breakPoints } from './themes';
+import { setScreenSize } from '../modules/actions/general';
+import './app.css';
 
 class App extends Component {
   componentWillMount() {
+    const { establishCurrentUser } = this.props;
     if (!isServer) {
-      this.props.establishCurrentUser();
+      establishCurrentUser();
     }
   }
 
   render() {
+    const { setScreenSize, isAuthenticated, location } = this.props;
     return (
       <Grommet theme={breakPoints} full>
         <ResponsiveContext.Consumer>
           {size => {
-            this.props.setScreenSize(size);
+            setScreenSize(size);
             return (
               <React.Fragment>
-                <Box
-                  id="content"
-                  style={{ height: "100%", width: "100%" }}
-                  id="container"
-                >
+                <Box style={{ height: '100%', width: '100%' }} id="container">
                   <Header
                     size={size}
-                    isAuthenticated={this.props.isAuthenticated}
-                    current={this.props.location.pathname}
+                    isAuthenticated={isAuthenticated}
+                    current={location.pathname}
                   />
                   <Routes />
                 </Box>
@@ -52,7 +50,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 const mapDispatchToProps = { establishCurrentUser, setScreenSize };

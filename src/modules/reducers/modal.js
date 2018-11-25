@@ -1,9 +1,9 @@
-import * as types from "../actionTypes/modal";
+import * as types from '../actionTypes/modal';
 
 const initialState = {
   modalContent: {},
-  modalContentType: "",
-  modalIsOpen: false
+  modalContentType: '',
+  modalIsOpen: false,
 };
 
 export default (state = initialState, action) => {
@@ -13,14 +13,14 @@ export default (state = initialState, action) => {
         ...state,
         modalContent: action.modalContent,
         modalContentType: action.modalContentType,
-        modalIsOpen: true
+        modalIsOpen: true,
       };
     case types.CLOSE_MODAL_CLEAR_CONTENT:
       return {
         ...state,
         contents: {},
-        contentType: "",
-        modalIsOpen: false
+        contentType: '',
+        modalIsOpen: false,
       };
     default:
       return state;

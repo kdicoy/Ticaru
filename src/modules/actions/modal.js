@@ -1,4 +1,4 @@
-import * as types from "../actionTypes/modal";
+import * as types from '../actionTypes/modal';
 
 export const openModalAndUpdateConents = (
   modalContent,
@@ -7,7 +7,7 @@ export const openModalAndUpdateConents = (
   return dispatch({
     type: types.OPEN_MODAL_UPDATE_CONTENT,
     modalContent,
-    modalContentType
+    modalContentType,
   });
 };
 

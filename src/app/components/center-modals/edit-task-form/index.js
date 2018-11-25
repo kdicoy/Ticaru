@@ -1,54 +1,97 @@
-import React, { PureComponent, Fragment } from "react";
+import React, { PureComponent, Fragment } from 'react';
 
-import { createEditableTaskObject } from "../edit-helpers";
-import CustomTextInput from "../custom-text-input";
-import * as constants from "../../../constants/validation-constants";
+import PropTypes from 'prop-types';
+import CustomTextInput from '../custom-text-input';
+import * as constants from '../../../constants/validation-constants';
 
 class EditTaskForm extends PureComponent {
-  state = {
-    error: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      errorNumbers: 0,
+    };
+  }
+
   renderCustomInput = key => {
-    userInputGoalProperties[key] &&
-    userInputGoalProperties[key][constants.required]
-      ? true
-      : false;
-    let validationType = customValidationRequired
+    const {
+      userInputGoalProperties,
+      editableTaskState,
+      updateState,
+    } = this.props;
+
+    const customValidationRequired = !!(
+      userInputGoalProperties[key] &&
+      userInputGoalProperties[key][constants.required]
+    );
+    const validationType = customValidationRequired
       ? userInputGoalProperties[key][constants.type]
       : false;
 
     return (
       <CustomTextInput
         taskProperty={key}
-        handleUpdateEditableTaskState={this.updateState}
-        storedTaskValue={`${this.state[key]}`}
+        handleUpdateEditableTaskState={updateState}
+        storedTaskValue={`${editableTaskState[key]}`}
         customValidationRequired={customValidationRequired}
         validationType={validationType}
-        setErrorState={this.setErrorState}
+        removeFromErrorCount={this.removeFromErrorCount}
+        addToErrorCount={this.addToErrorCount}
       />
     );
   };
-  passedValidationUpdateTaskAndCloseModal = () => {
-    if (this.state.error) {
-      alert(this.state.error);
+
+  passedValidationUpdateTaskAndCloseModal = e => {
+    e.preventDefault();
+    const { updateTaskAndCloseModal } = this.props;
+    const { errorNumbers } = this.state;
+
+    if (errorNumbers === 0) {
+      updateTaskAndCloseModal();
     } else {
-      this.props.updateTaskAndCloseModal();
+      alert('NOT SUBMITABLE');
     }
   };
-  setErrorState = error => {
-    this.setState({ error });
+
+  addToErrorCount = () => {
+    const { errorNumbers } = this.state;
+    this.setState({ errorNumbers: errorNumbers + 1 });
+  };
+
+  removeFromErrorCount = () => {
+    const { errorNumbers } = this.state;
+
+    this.setState({ errorNumbers: errorNumbers - 1 });
   };
 
   render() {
+    const { editableTaskState } = this.props;
     return (
-      <div style={{ padding: "40px", minWidth: "500px" }}>
-        {Object.keys(this.props.editableTaskState).map(key =>
-          this.renderCustomInput(key)
-        )}
-        <button onClick={this.updateTaskAndCloseModal}>UPDATE AND SAVE</button>
+      <div
+        style={{
+          padding: '40px',
+          overflowY: 'scroll',
+          height: '100%',
+        }}
+      >
+        {Object.keys(editableTaskState).map(key => (
+          <Fragment key={key}>{this.renderCustomInput(key)}</Fragment>
+        ))}
+        <button
+          type="submit"
+          onClick={this.passedValidationUpdateTaskAndCloseModal}
+        >
+          UPDATE AND SAVE
+        </button>
       </div>
     );
   }
 }
+
+EditTaskForm.propTypes = {
+  userInputGoalProperties: PropTypes.shape({}).isRequired,
+  editableTaskState: PropTypes.shape({}).isRequired,
+  updateState: PropTypes.func.isRequired,
+  updateTaskAndCloseModal: PropTypes.func.isRequired,
+};
 
 export default EditTaskForm;

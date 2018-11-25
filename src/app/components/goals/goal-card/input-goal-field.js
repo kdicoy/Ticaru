@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
-import { TextInput } from "grommet";
-import styled from "styled-components";
+import React, { PureComponent } from 'react';
+import { TextInput } from 'grommet';
+import styled from 'styled-components';
 
 const BorderedDiv = styled.div`
   box-sizing: border-box;
@@ -28,7 +28,7 @@ class InputGoalField extends PureComponent {
     super(props);
 
     this.state = {
-      goalText: this.props.goalInitialInput
+      goalText: this.props.goalInitialInput,
     };
   }
   handleGoalTextChange = event => {
@@ -41,7 +41,7 @@ class InputGoalField extends PureComponent {
         {goalType}:
         {timeToUpdate ? (
           <TextInput
-            style={{ padding: "5px", width: "auto", fontWeight: 400 }}
+            style={{ padding: '5px', width: 'auto', fontWeight: 400 }}
             value={this.state.goalText}
             onChange={this.handleGoalTextChange}
           />

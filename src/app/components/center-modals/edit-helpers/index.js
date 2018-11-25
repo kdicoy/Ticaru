@@ -1,41 +1,77 @@
-import * as errors from "./errors";
+import moment from 'moment';
+import * as validationTypes from './validation-types';
 
-const editableProperties = {
-  task: true,
-  time: true,
-  time_duration: true,
-  time_units: true,
-  difficulty: true,
-  points: false,
-  day: true,
-  goalId: false
+const notEditableDefaultTaskProperties = {
+  id: true,
+  task: false,
+  time: false,
+  time_duration: false,
+  time_units: false,
+  difficulty: false,
+  points: true,
+  day: false,
+  goalId: true,
 };
 
 export const createEditableTaskObject = obj => {
   const editableTaskObject = {};
   Object.keys(obj).forEach(property => {
-    if (editableProperties[property]) {
+    if (!notEditableDefaultTaskProperties[property]) {
       editableTaskObject[property] = obj[property];
     }
   });
   return editableTaskObject;
 };
-/*
-validationObject = {
-  task: value => value.length > 0,
-  time: value => //moment is valid,
-  time_duration: // is number,
-  time_units: // is valid unit
-  difficulty: // is number drop down,
-  day: true, //drop down
-};*/
 
-export const defaultValidation = (value, key) => {};
-
-export const taskValidation = (value, key) => {
-  switch (key) {
-    case "task":
-      return value.length > 0 ? "" : errors.inputRequired;
-  }
-  return validate[key](value);
+export const createEditableGoalObject = obj => {
+  const editableTaskObject = {};
+  Object.keys(obj).forEach(property => {
+    if (!notEditableDefaultTaskProperties[property]) {
+      editableTaskObject[property] = obj[property];
+    }
+  });
+  return editableTaskObject;
 };
+
+export const numberValidation = stringNumber => {
+  if (stringNumber === ' ') return false;
+  return !Number.isNaN(Number(stringNumber));
+};
+
+export const textValidation = text => typeof text === 'string';
+
+export const pictureValidation = () => true;
+
+export const timeValidation = time => moment(time).isValid();
+
+export const timeUnitValidation = timeUnit =>
+  ['days', 'hours', 'minutes'].includes(timeUnit);
+
+export const baseInputCoersion = (value, type) => {
+  switch (type) {
+    case validationTypes.number:
+      return numberValidation(value);
+    case validationTypes.text:
+      return textValidation(value);
+    case validationTypes.image:
+      return pictureValidation(value);
+    case validationTypes.time:
+      return timeValidation(value);
+    case validationTypes.timeUnits:
+      return timeUnitValidation(value);
+    default:
+      return false;
+  }
+};
+
+const defaultTaskValidationProperties = {
+  task: validationTypes.text,
+  time: validationTypes.time,
+  time_duration: validationTypes.number,
+  time_units: validationTypes.timeUnits,
+  difficulty: validationTypes.number,
+  day: validationTypes.text,
+};
+
+export const defaultTaskInputCoersion = (value, key) =>
+  baseInputCoersion(value, defaultTaskValidationProperties[key]);

@@ -1,7 +1,7 @@
-import * as types from "../actionTypes/goals";
+import * as types from '../actionTypes/goals';
 
 const initialState = {
-  currentProfile: {}
+  currentProfile: {},
 };
 
 export default (state = initialState, action) => {
@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
     case types.SET_CURRENT_PROFILE:
       return {
         ...state,
-        currentProfile: action.profile
+        currentProfile: action.profile,
       };
 
     default:

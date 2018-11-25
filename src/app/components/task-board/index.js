@@ -1,37 +1,37 @@
-import React, { Component } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   getWeeklyBoardState,
-  getGoalsColorState
-} from "../../../modules/selectors";
-import PropTypes from "prop-types";
+  getGoalsColorState,
+} from '../../../modules/selectors';
 import {
   reorderTasksInADay,
   moveTaskToAnotherDay,
-  resolveTask
-} from "../../../modules/actions/tasks";
-import { openModalAndUpdateConents } from "../../../modules/actions/modal";
+  resolveTask,
+} from '../../../modules/actions/tasks';
+import { openModalAndUpdateConents } from '../../../modules/actions/modal';
 import {
   reorder,
   move,
   getTaskStyle,
-  getTaskListStyle
-} from "../../helpers/drag-helpers";
-import TaskComponent from "./task-component";
+  getTaskListStyle,
+} from '../../helpers/drag-helpers';
+import TaskComponent from './task-component';
 
 export class TaskBoard extends Component {
   constructor() {
     super();
 
     this.id2List = {
-      monday: "monday",
-      tuesday: "tuesday",
-      wednesday: "wednesday",
-      thursday: "thursday",
-      friday: "friday",
-      saturday: "saturday",
-      sunday: "sunday"
+      Monday: 'Monday',
+      Tuesday: 'Tuesday',
+      Wednesday: 'Wednesday',
+      Thursday: 'Thursday',
+      Friday: 'Friday',
+      Saturday: 'Saturday',
+      Sunday: 'Sunday',
     };
   }
 
@@ -41,7 +41,10 @@ export class TaskBoard extends Component {
    * source arrays stored in the state.
    */
 
-  getList = id => this.props.weeklyBoard[this.id2List[id]];
+  getList = id => {
+    const { weeklyBoard } = this.props;
+    return weeklyBoard[this.id2List[id]];
+  };
 
   onDragEnd = result => {
     const { source, destination } = result;
@@ -66,7 +69,7 @@ export class TaskBoard extends Component {
         destination
       );
 
-      result[destination.droppableId][destination.index]["day"] =
+      result[destination.droppableId][destination.index].day =
         destination.droppableId;
 
       moveTaskToAnotherDay(result);
@@ -74,9 +77,10 @@ export class TaskBoard extends Component {
   };
 
   resolveTask = (id, day) => event => {
+    const { resolveTask } = this.props;
     event.preventDefault();
     event.stopPropagation();
-    this.props.resolveTask(id, day);
+    resolveTask(id, day);
   };
 
   renderDailyTaskColumn = day => {
@@ -91,34 +95,32 @@ export class TaskBoard extends Component {
             >
               <h2>{day}</h2>
 
-              {weeklyBoard[day].map((item, index) => {
-                return (
-                  <Draggable
-                    key={item.task + index + day}
-                    draggableId={item.task + index + day}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getTaskStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        <TaskComponent
-                          item={item}
-                          resolveTask={this.resolveTask}
-                          goalColors={goalsColors[item.goalId]}
-                          openModalAndUpdateConents={openModalAndUpdateConents}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                );
-              })}
+              {weeklyBoard[day].map((item, index) => (
+                <Draggable
+                  key={item.task + index + day}
+                  draggableId={item.task + index + day}
+                  index={index}
+                >
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={getTaskStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
+                    >
+                      <TaskComponent
+                        item={item}
+                        resolveTask={this.resolveTask}
+                        goalColors={goalsColors[item.goalId]}
+                        openModalAndUpdateConents={openModalAndUpdateConents}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
 
               {provided.placeholder}
             </div>
@@ -127,6 +129,7 @@ export class TaskBoard extends Component {
       </React.Fragment>
     );
   };
+
   render() {
     return (
       <React.Fragment>
@@ -143,21 +146,24 @@ export class TaskBoard extends Component {
 }
 
 TaskBoard.propTypes = {
-  weeklyBoard: PropTypes.object.isRequired
+  weeklyBoard: PropTypes.object.isRequired,
+  goalColors: PropTypes.object,
+  reorderTasksInADay: PropTypes.func.isRequired,
+  moveTaskToAnotherDay: PropTypes.func.isRequired,
+  resolveTask: PropTypes.func.isRequired,
+  openModalAndUpdateConents: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    weeklyBoard: getWeeklyBoardState(state),
-    goalsColors: getGoalsColorState(state)
-  };
-};
+const mapStateToProps = state => ({
+  weeklyBoard: getWeeklyBoardState(state),
+  goalsColors: getGoalsColorState(state),
+});
 
 const mapDispatchToProps = {
   reorderTasksInADay,
   moveTaskToAnotherDay,
   resolveTask,
-  openModalAndUpdateConents
+  openModalAndUpdateConents,
 };
 
 export default connect(

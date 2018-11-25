@@ -1,6 +1,6 @@
-import pekka from "../app/assets/pekka.jpg";
-import arvidsson from "../app/assets/arvidsson.jpg";
-import * as types from "../actionTypes/profile";
+import pekka from '../app/assets/pekka.jpg';
+import arvidsson from '../app/assets/arvidsson.jpg';
+import * as types from '../actionTypes/profile';
 
 export const getCurrentProfile = id => dispatch =>
   new Promise(resolve => {
@@ -10,20 +10,20 @@ export const getCurrentProfile = id => dispatch =>
       if (id === 1) {
         profile = {
           id,
-          name: "Pekka Rinne",
-          image: pekka
+          name: 'Pekka Rinne',
+          image: pekka,
         };
       } else {
         profile = {
           id,
-          name: "Viktor Arvidsson",
-          image: arvidsson
+          name: 'Viktor Arvidsson',
+          image: arvidsson,
         };
       }
 
       dispatch({
         type: types.SET_CURRENT_PROFILE,
-        profile
+        profile,
       });
 
       resolve(profile);
@@ -34,7 +34,7 @@ export const removeCurrentProfile = () => dispatch =>
   new Promise(resolve => {
     dispatch({
       type: types.SET_CURRENT_PROFILE,
-      profile: {}
+      profile: {},
     });
 
     resolve({});
