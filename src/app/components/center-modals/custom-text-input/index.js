@@ -3,6 +3,8 @@ import { TextInput } from 'grommet';
 import { baseInputCoersion, defaultTaskInputCoersion } from '../edit-helpers';
 import * as constants from '../../../constants/validation-constants';
 import DaySelect from './DaySelect';
+import DifficultySlider from './DifficultySlider';
+import TimeSelect from './TimeSelect';
 
 class CustomTextInput extends PureComponent {
   state = {
@@ -72,6 +74,22 @@ class CustomTextInput extends PureComponent {
       case 'day':
         return (
           <DaySelect
+            value={storedTaskValue}
+            taskProperty={taskProperty}
+            handleUpdateEditableTaskState={handleUpdateEditableTaskState}
+          />
+        );
+      case 'difficulty':
+        return (
+          <DifficultySlider
+            value={storedTaskValue}
+            taskProperty={taskProperty}
+            handleUpdateEditableTaskState={handleUpdateEditableTaskState}
+          />
+        );
+      case 'time':
+        return (
+          <TimeSelect
             value={storedTaskValue}
             taskProperty={taskProperty}
             handleUpdateEditableTaskState={handleUpdateEditableTaskState}

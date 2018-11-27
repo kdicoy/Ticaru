@@ -1,17 +1,16 @@
 import React, { PureComponent } from 'react';
-import { days } from '../../../constants/general-constants';
 import { Select } from 'grommet';
+import PropTypes from 'prop-types';
+import { days } from '../../../constants/general-constants';
 
 class DaySelect extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.value,
-    };
+  constructor() {
+    super();
+
     this.options = Object.keys(days);
   }
 
-  handleUpdateEditableTaskStateWithSlider = ({ option }) => {
+  handleUpdateEditableTaskStateWithDrop = ({ option }) => {
     console.log(option, 'OPTION');
     const { taskProperty, handleUpdateEditableTaskState } = this.props;
     console.log(option, taskProperty, 'OPTION TASK PROP');
@@ -19,18 +18,24 @@ class DaySelect extends PureComponent {
   };
 
   render() {
-    const { value } = this.state;
+    const { value } = this.props;
     return (
       <Select
         id="select"
         name="select"
         placeholder="Select"
-        value={this.props.value}
+        value={value}
         options={this.options}
-        onChange={this.handleUpdateEditableTaskStateWithSlider}
+        onChange={this.handleUpdateEditableTaskStateWithDrop}
       />
     );
   }
 }
+
+DaySelect.propTypes = {
+  taskProperty: PropTypes.string.isRequired,
+  handleUpdateEditableTaskState: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 export default DaySelect;
