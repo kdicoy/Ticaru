@@ -7,3 +7,9 @@ export const days = {
   Saturday: 'Saturday',
   Sunday: 'Sunday',
 };
+
+export const timeUnits = {
+  minutes: 'minutes',
+  hours: 'hours',
+  days: 'days',
+};

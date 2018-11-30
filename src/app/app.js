@@ -1,7 +1,7 @@
 // The basics
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
 // Action creators and helpers
@@ -11,7 +11,7 @@ import { isServer } from '../store';
 
 import Header from './Header';
 import Routes from './routes';
-import { breakPoints } from './themes';
+import theme from './themes';
 import { setScreenSize } from '../modules/actions/general';
 import './app.css';
 
@@ -26,7 +26,7 @@ class App extends Component {
   render() {
     const { setScreenSize, isAuthenticated, location } = this.props;
     return (
-      <Grommet theme={breakPoints} full>
+      <Grommet theme={theme} full>
         <ResponsiveContext.Consumer>
           {size => {
             setScreenSize(size);
@@ -61,3 +61,10 @@ export default withRouter(
     mapDispatchToProps
   )(App)
 );
+
+App.propTypes = {
+  setScreenSize: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  location: PropTypes.shape({}).isRequired,
+  establishCurrentUser: PropTypes.func.isRequired,
+};

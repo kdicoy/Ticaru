@@ -3,7 +3,7 @@ import { Select } from 'grommet';
 import PropTypes from 'prop-types';
 import { days } from '../../../constants/general-constants';
 
-class DaySelect extends PureComponent {
+class CustomSelect extends PureComponent {
   constructor() {
     super();
 
@@ -18,24 +18,26 @@ class DaySelect extends PureComponent {
   };
 
   render() {
-    const { value } = this.props;
+    const { value, options } = this.props;
     return (
       <Select
         id="select"
         name="select"
         placeholder="Select"
         value={value}
-        options={this.options}
+        options={options}
         onChange={this.handleUpdateEditableTaskStateWithDrop}
+        style={{ border: '0px' }}
       />
     );
   }
 }
 
-DaySelect.propTypes = {
+CustomSelect.propTypes = {
   taskProperty: PropTypes.string.isRequired,
   handleUpdateEditableTaskState: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
+  options: PropTypes.shape([]).isRequired,
 };
 
-export default DaySelect;
+export default CustomSelect;

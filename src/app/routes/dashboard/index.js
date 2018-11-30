@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Box, Heading } from 'grommet';
 import Page from '../../components/page';
-import { Box, Button, Text, Heading } from 'grommet';
 import Taskboard from '../../components/task-board';
 import GoalsBoard from '../../components/goals/goal-board';
 import { getScreenSizeState } from '../../../modules/selectors';
 import CenterModal from '../../components/center-modals';
+
 class Dashboard extends PureComponent {
   render() {
     const { screenSize } = this.props;
@@ -13,16 +15,14 @@ class Dashboard extends PureComponent {
     console.log(screenSize, 'screenSize', isDesktopSize);
     return (
       <Page id="dashboard" title="Dashboard" noCrawl>
-        <CenterModal />
         <Box flex direction="row">
           {isDesktopSize && (
             <Box
               gridArea="sidebar"
               background="dark-5"
-              style={{ width: '40%', padding: '20px' }}
+              style={{ width: '40%', maxWidth: '400px' }}
               animation={[
-                { type: 'fadeIn', duration: 300 },
-                { type: 'slideRight', size: 'xlarge', duration: 150 },
+                { type: 'slideRight', size: 'xlarge', duration: 1000 },
               ]}
             >
               <Box flex direction="column">
@@ -33,16 +33,28 @@ class Dashboard extends PureComponent {
               </Box>
             </Box>
           )}
-          <Box flex direction="column">
-            <Box flex align="center" justify="center">
-              <Taskboard />
-            </Box>
+          <Box
+            gridArea="sidebar"
+            style={{ width: '60%', display: 'inline-block' }}
+            animation={[{ type: 'slideLeft', size: 'xlarge', duration: 1000 }]}
+            flex
+            align="center"
+            justify="center"
+            direction="column"
+          >
+            <Heading margin="xsmall">Weekly Taskboard</Heading>
+            <Taskboard />
           </Box>
         </Box>
+        <CenterModal />
       </Page>
     );
   }
 }
+
+Dashboard.propTypes = {
+  screenSize: PropTypes.number.isRequired,
+};
 
 const mapStateToProps = state => ({
   currentUser: state.auth.currentUser,

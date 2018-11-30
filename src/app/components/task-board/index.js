@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Heading } from 'grommet';
 import {
   getWeeklyBoardState,
   getGoalsColorState,
@@ -93,7 +94,7 @@ export class TaskBoard extends Component {
               ref={provided.innerRef}
               style={getTaskListStyle(snapshot.isDraggingOver)}
             >
-              <h2>{day}</h2>
+              <Heading margin="xsmall">{day}</Heading>
 
               {weeklyBoard[day].map((item, index) => (
                 <Draggable
@@ -134,11 +135,11 @@ export class TaskBoard extends Component {
     return (
       <React.Fragment>
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <div style={{ padding: 20 }}>
+          <React.Fragment>
             {Object.keys(this.id2List).map(day =>
               this.renderDailyTaskColumn(day)
             )}
-          </div>
+          </React.Fragment>
         </DragDropContext>
       </React.Fragment>
     );
@@ -146,8 +147,8 @@ export class TaskBoard extends Component {
 }
 
 TaskBoard.propTypes = {
-  weeklyBoard: PropTypes.object.isRequired,
-  goalColors: PropTypes.object,
+  weeklyBoard: PropTypes.shape({}).isRequired,
+  goalColors: PropTypes.shape({}).isRequired,
   reorderTasksInADay: PropTypes.func.isRequired,
   moveTaskToAnotherDay: PropTypes.func.isRequired,
   resolveTask: PropTypes.func.isRequired,

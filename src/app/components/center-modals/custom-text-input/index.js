@@ -1,10 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
-import { TextInput } from 'grommet';
+import PropTypes from 'prop-types';
+import { TextInput, FormField } from 'grommet';
 import { baseInputCoersion, defaultTaskInputCoersion } from '../edit-helpers';
 import * as constants from '../../../constants/validation-constants';
-import DaySelect from './DaySelect';
+import CustomSelect from './CustomSelect';
 import DifficultySlider from './DifficultySlider';
 import TimeSelect from './TimeSelect';
+import { days, timeUnits } from '../../../constants/general-constants';
 
 class CustomTextInput extends PureComponent {
   state = {
@@ -70,13 +72,15 @@ class CustomTextInput extends PureComponent {
       storedTaskValue,
       handleUpdateEditableTaskState,
     } = this.props;
+
     switch (taskProperty) {
       case 'day':
         return (
-          <DaySelect
+          <CustomSelect
             value={storedTaskValue}
             taskProperty={taskProperty}
             handleUpdateEditableTaskState={handleUpdateEditableTaskState}
+            options={Object.keys(days)}
           />
         );
       case 'difficulty':
@@ -93,26 +97,59 @@ class CustomTextInput extends PureComponent {
             value={storedTaskValue}
             taskProperty={taskProperty}
             handleUpdateEditableTaskState={handleUpdateEditableTaskState}
+            options={timeUnits}
+          />
+        );
+      case 'time_units':
+        return (
+          <CustomSelect
+            value={storedTaskValue}
+            taskProperty={taskProperty}
+            handleUpdateEditableTaskState={handleUpdateEditableTaskState}
+            options={Object.keys(timeUnits)}
           />
         );
       default:
         return (
-          <div>
-            <label>{taskProperty}</label>
-            <TextInput
-              value={storedTaskValue}
-              onChange={this.handleUpdateEditableTaskStateAndCoerce}
-              style={{ borderColor: this.state.error && '#ff0240' }}
-            />
-            <label style={{ color: '#ff0240' }}>{this.state.error}</label>
-          </div>
+          <TextInput
+            value={storedTaskValue}
+            onChange={this.handleUpdateEditableTaskStateAndCoerce}
+          />
         );
     }
   };
 
+  outerFormFieldWrapper = () => {
+    const { taskProperty } = this.props;
+    const { error } = this.state;
+    return (
+      <FormField
+        label={`${taskProperty}`}
+        error={error}
+        htmlFor={`${taskProperty}`}
+      >
+        {this.renderProperInputField()}
+      </FormField>
+    );
+  };
+
   render() {
-    return <React.Fragment>{this.renderProperInputField()}</React.Fragment>;
+    return <Fragment>{this.outerFormFieldWrapper()}</Fragment>;
   }
 }
+
+CustomTextInput.propTypes = {
+  handleUpdateEditableTaskState: PropTypes.func.isRequired,
+  taskProperty: PropTypes.string.isRequired,
+  validationType: PropTypes.string,
+  removeFromErrorCount: PropTypes.func.isRequired,
+  storedTaskValue: PropTypes.string.isRequired,
+  customValidationRequired: PropTypes.bool.isRequired,
+  addToErrorCount: PropTypes.func.isRequired,
+};
+
+CustomTextInput.defaultProps = {
+  validationType: '',
+};
 
 export default CustomTextInput;

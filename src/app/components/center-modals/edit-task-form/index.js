@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 
 import PropTypes from 'prop-types';
+import { Button } from 'grommet';
 import CustomTextInput from '../custom-text-input';
 import * as constants from '../../../constants/validation-constants';
 
@@ -66,7 +67,7 @@ class EditTaskForm extends PureComponent {
   render() {
     const { editableTaskState } = this.props;
     return (
-      <div
+      <form
         style={{
           padding: '40px',
           overflowY: 'scroll',
@@ -76,13 +77,21 @@ class EditTaskForm extends PureComponent {
         {Object.keys(editableTaskState).map(key => (
           <Fragment key={key}>{this.renderCustomInput(key)}</Fragment>
         ))}
-        <button
-          type="submit"
-          onClick={this.passedValidationUpdateTaskAndCloseModal}
+        <div
+          style={{
+            display: 'flex',
+            flexAlign: 'center',
+            justifyContent: 'center',
+          }}
         >
-          UPDATE AND SAVE
-        </button>
-      </div>
+          <Button
+            type="submit"
+            onClick={this.passedValidationUpdateTaskAndCloseModal}
+            label="Update and Save"
+            color="accent-1"
+          />
+        </div>
+      </form>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export const TaskComponent = ({
+const TaskComponent = ({
   item,
   resolveTask,
   goalColors,
@@ -17,8 +18,10 @@ export const TaskComponent = ({
         borderRadius: '5px',
         ...goalColors,
       }}
-      onClick={() => openModalAndUpdateConents(item, 'task')}
     >
+      <button onClick={() => openModalAndUpdateConents(item, 'task')}>
+        (Edit)
+      </button>
       <div
         style={{
           width: '50%',
@@ -46,13 +49,20 @@ export const TaskComponent = ({
           {difficulty}
           /8
         </div>
-        <div>{points} points</div>
+        <div>{points} points </div>
         <button className="resolve-circle-button" onClick={resolveTask(item)}>
           <i className="ion-ios-arrow-down" />
         </button>
       </div>
     </div>
   );
+};
+
+TaskComponent.propTypes = {
+  item: PropTypes.shape({}).isRequired,
+  resolveTask: PropTypes.func.isRequired,
+  goalColors: PropTypes.shape({}).isRequired,
+  openModalAndUpdateConents: PropTypes.func.isRequired,
 };
 
 export default TaskComponent;
