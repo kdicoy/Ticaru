@@ -6,3 +6,7 @@ export const moveGoal = goalList => dispatch =>
 export const resolveGoal = goalId => dispatch => {
   dispatch({ type: types.REMOVE_GOAL, goalId });
 };
+
+export const addGoal = goal => dispatch => {
+  dispatch({ type: types.ADD_GOAL, goal });
+};

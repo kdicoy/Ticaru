@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { TextInput, FormField } from 'grommet';
 import { baseInputCoersion, defaultTaskInputCoersion } from '../edit-helpers';
 import * as constants from '../../../constants/validation-constants';
-import CustomSelect from './CustomSelect';
-import DifficultySlider from './DifficultySlider';
-import TimeSelect from './TimeSelect';
+import CustomSelect from '../custom-input-components/CustomSelect';
+import DifficultySlider from '../custom-input-components/DifficultySlider';
+import TimeSelect from '../custom-input-components/TimeSelect';
 import { days, timeUnits } from '../../../constants/general-constants';
 
-class CustomTextInput extends PureComponent {
+class PropertyInputs extends PureComponent {
   state = {
     error: '',
   };
@@ -45,25 +45,21 @@ class CustomTextInput extends PureComponent {
 
       customValidationRequired,
       validationType,
+      handleUpdateEditableTaskState,
     } = this.props;
 
     const { value } = event.target;
 
     if (validationType) {
       if (baseInputCoersion(value, validationType)) {
-        this.coersedInputAndSetSubmittable(value);
+        handleUpdateEditableTaskState(value, taskProperty);
       }
       return this.setOrRemoveError(value, customValidationRequired);
     }
     if (defaultTaskInputCoersion(value, taskProperty)) {
-      this.coersedInputAndSetSubmittable(value);
+      handleUpdateEditableTaskState(value, taskProperty);
     }
     return this.setOrRemoveError(value, true);
-  };
-
-  coersedInputAndSetSubmittable = value => {
-    const { handleUpdateEditableTaskState, taskProperty } = this.props;
-    handleUpdateEditableTaskState(value, taskProperty);
   };
 
   renderProperInputField = () => {
@@ -71,6 +67,7 @@ class CustomTextInput extends PureComponent {
       taskProperty,
       storedTaskValue,
       handleUpdateEditableTaskState,
+      validationType,
     } = this.props;
 
     switch (taskProperty) {
@@ -100,7 +97,7 @@ class CustomTextInput extends PureComponent {
             options={timeUnits}
           />
         );
-      case 'time_units':
+      case 'timeUnits':
         return (
           <CustomSelect
             value={storedTaskValue}
@@ -109,9 +106,18 @@ class CustomTextInput extends PureComponent {
             options={Object.keys(timeUnits)}
           />
         );
+      case 'timeDuration':
+        return (
+          <TextInput
+            type="number"
+            value={storedTaskValue}
+            onChange={this.handleUpdateEditableTaskStateAndCoerce}
+          />
+        );
       default:
         return (
           <TextInput
+            type={validationType || 'text'}
             value={storedTaskValue}
             onChange={this.handleUpdateEditableTaskStateAndCoerce}
           />
@@ -138,7 +144,7 @@ class CustomTextInput extends PureComponent {
   }
 }
 
-CustomTextInput.propTypes = {
+PropertyInputs.propTypes = {
   handleUpdateEditableTaskState: PropTypes.func.isRequired,
   taskProperty: PropTypes.string.isRequired,
   validationType: PropTypes.string,
@@ -148,8 +154,8 @@ CustomTextInput.propTypes = {
   addToErrorCount: PropTypes.func.isRequired,
 };
 
-CustomTextInput.defaultProps = {
+PropertyInputs.defaultProps = {
   validationType: '',
 };
 
-export default CustomTextInput;
+export default PropertyInputs;

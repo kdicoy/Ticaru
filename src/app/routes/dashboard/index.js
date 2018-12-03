@@ -6,13 +6,12 @@ import Page from '../../components/page';
 import Taskboard from '../../components/task-board';
 import GoalsBoard from '../../components/goals/goal-board';
 import { getScreenSizeState } from '../../../modules/selectors';
-import CenterModal from '../../components/center-modals';
+import CenterModal from '../../components/center-modal';
 
 class Dashboard extends PureComponent {
   render() {
     const { screenSize } = this.props;
     const isDesktopSize = screenSize !== 'small' && screenSize !== 'xsmall';
-    console.log(screenSize, 'screenSize', isDesktopSize);
     return (
       <Page id="dashboard" title="Dashboard" noCrawl>
         <Box flex direction="row">

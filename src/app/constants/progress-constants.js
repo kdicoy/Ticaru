@@ -1,0 +1,11 @@
+export const TWO_YEAR = 'TWO_YEAR';
+export const ONE_YEAR = 'ONE_YEAR';
+export const SIX_MONTH = 'SIX_MONTH';
+export const THREE_MONTH = 'THREE_MONTH';
+export const ONE_MONTH = 'ONE_MONTH';
+export const ONE_WEEK = 'ONE_WEEK';
+export const GOAL_QUESTION = 'GOAL_QUESTION';
+export const DISPLAY_GOAL_QUESTION = 'DISPLAY_GOAL_QUESTION';
+export const DURATION_QUESTION = 'DURATION_QUESTION';
+export const DISPLAY_DURATION_QUESTION = 'DISPLAY_DURATION_QUESTION';
+export const DOES_THIS_LOOK_RIGHT = 'DOES_THIS_LOOK_RIGHT';

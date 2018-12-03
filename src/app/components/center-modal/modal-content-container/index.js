@@ -15,6 +15,9 @@ import {
   createEditableTaskObject,
   createEditableGoalObject,
 } from '../edit-helpers';
+import { ExitIcon } from '../../../assets/icons';
+import * as constants from '../../../constants/modal-constants';
+import AddGoalForm from '../add-goal-form';
 
 class ModalContentContainer extends PureComponent {
   constructor(props) {
@@ -25,15 +28,17 @@ class ModalContentContainer extends PureComponent {
   componentDidMount() {
     const { modalContent, modalContentType } = this.props;
     switch (modalContentType) {
-      case 'task':
-        this.setState({
-          ...createEditableTaskObject(modalContent),
-        });
+      case constants.EDIT_TASK:
+        this.setState(createEditableTaskObject(modalContent));
         break;
-      case 'goal':
+      case constants.EDIT_GOAL:
         this.setState({
           ...createEditableGoalObject(modalContent),
         });
+        break;
+      case constants.ADD_TASK:
+        break;
+      case constants.ADD_GOAL:
         break;
       default:
         break;
@@ -45,8 +50,15 @@ class ModalContentContainer extends PureComponent {
     closeModalAndClearConents();
   }
 
-  updateState = (value, key) => {
+  updateDefaultStateProperty = (value, key) => {
     this.setState({ [key]: value });
+  };
+
+  updateCustomStateProperty = (value, key) => {
+    const { customProperties } = this.state;
+    this.setState({
+      customProperties: { ...customProperties, [key]: value },
+    });
   };
 
   updateTaskAndCloseModal = () => {
@@ -64,24 +76,54 @@ class ModalContentContainer extends PureComponent {
     closeModalAndClearConents();
   };
 
+  createGoalAndCloseModal = () => {
+    const { addGoal } = this.props;
+    addGoal(this.state);
+  };
+
   render() {
     const {
       modalContentType,
       modalContent,
       userInputGoalProperties,
+      closeModalAndClearConents,
     } = this.props;
+    const { customProperties, ...defaultProperties } = this.state;
+
     return (
       <Fragment>
-        {modalContentType === 'task' && (
+        <button
+          type="button"
+          onClick={() => closeModalAndClearConents()}
+          className="remove-default-button-style"
+          style={{
+            position: 'absolute',
+            right: '25px',
+            top: '5px',
+            width: 36,
+            height: 36,
+            cursor: 'pointer',
+          }}
+        >
+          <ExitIcon width={36} height={36} />
+        </button>
+        {modalContentType === constants.EDIT_TASK && (
           <EditTaskForm
             task={modalContent}
-            updateState={this.updateState}
+            updateDefaultStateProperty={this.updateDefaultStateProperty}
+            updateCustomStateProperty={this.updateCustomStateProperty}
             updateTaskAndCloseModal={this.updateTaskAndCloseModal}
             userInputGoalProperties={userInputGoalProperties}
-            editableTaskState={this.state}
+            defaultProperties={defaultProperties}
+            customProperties={customProperties}
           />
         )}
-        {modalContentType === 'goal' && <EditGoalForm goal={modalContent} />}
+        {modalContentType === constants.EDIT_GOAL && (
+          <EditGoalForm goal={modalContent} />
+        )}
+        {modalContentType === constants.ADD_GOAL && (
+          <AddGoalForm closeModalAndClearConents={closeModalAndClearConents} />
+        )}
       </Fragment>
     );
   }
@@ -93,6 +135,7 @@ ModalContentContainer.propTypes = {
   userInputGoalProperties: PropTypes.shape({}).isRequired,
   updateWithEditedTask: PropTypes.func.isRequired,
   closeModalAndClearConents: PropTypes.func.isRequired,
+  addGoal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

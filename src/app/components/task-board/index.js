@@ -5,20 +5,22 @@ import PropTypes from 'prop-types';
 import { Heading } from 'grommet';
 import {
   getWeeklyBoardState,
-  getGoalsColorState,
+  getGoalsColorsState,
 } from '../../../modules/selectors';
 import {
   reorderTasksInADay,
   moveTaskToAnotherDay,
   resolveTask,
 } from '../../../modules/actions/tasks';
-import { openModalAndUpdateConents } from '../../../modules/actions/modal';
+import { openModalAndUpdateContents } from '../../../modules/actions/modal';
 import {
   reorder,
   move,
   getTaskStyle,
   getTaskListStyle,
 } from '../../helpers/drag-helpers';
+import { EDIT_TASK } from '../../constants/modal-constants';
+
 import TaskComponent from './task-component';
 
 export class TaskBoard extends Component {
@@ -84,8 +86,14 @@ export class TaskBoard extends Component {
     resolveTask(id, day);
   };
 
+  openEditTaskModal = (item, type) => e => {
+    e.preventDefault();
+    const { openModalAndUpdateContents } = this.props;
+    openModalAndUpdateContents(item, type);
+  };
+
   renderDailyTaskColumn = day => {
-    const { weeklyBoard, goalsColors, openModalAndUpdateConents } = this.props;
+    const { weeklyBoard, goalsColors } = this.props;
     return (
       <React.Fragment key={day}>
         <Droppable droppableId={day}>
@@ -98,7 +106,7 @@ export class TaskBoard extends Component {
 
               {weeklyBoard[day].map((item, index) => (
                 <Draggable
-                  key={item.task + index + day}
+                  key={item.task + day}
                   draggableId={item.task + index + day}
                   index={index}
                 >
@@ -115,8 +123,11 @@ export class TaskBoard extends Component {
                       <TaskComponent
                         item={item}
                         resolveTask={this.resolveTask}
-                        goalColors={goalsColors[item.goalId]}
-                        openModalAndUpdateConents={openModalAndUpdateConents}
+                        goalColor={goalsColors[item.goalId]}
+                        openEditTaskModal={this.openEditTaskModal(
+                          item,
+                          EDIT_TASK
+                        )}
                       />
                     </div>
                   )}
@@ -148,23 +159,23 @@ export class TaskBoard extends Component {
 
 TaskBoard.propTypes = {
   weeklyBoard: PropTypes.shape({}).isRequired,
-  goalColors: PropTypes.shape({}).isRequired,
+  goalsColors: PropTypes.shape({}).isRequired,
   reorderTasksInADay: PropTypes.func.isRequired,
   moveTaskToAnotherDay: PropTypes.func.isRequired,
   resolveTask: PropTypes.func.isRequired,
-  openModalAndUpdateConents: PropTypes.func.isRequired,
+  openModalAndUpdateContents: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   weeklyBoard: getWeeklyBoardState(state),
-  goalsColors: getGoalsColorState(state),
+  goalsColors: getGoalsColorsState(state),
 });
 
 const mapDispatchToProps = {
   reorderTasksInADay,
   moveTaskToAnotherDay,
   resolveTask,
-  openModalAndUpdateConents,
+  openModalAndUpdateContents,
 };
 
 export default connect(

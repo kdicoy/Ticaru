@@ -1,22 +1,23 @@
 import moment from 'moment';
 import * as validationTypes from './validation-types';
 
-const notEditableDefaultTaskProperties = {
-  id: true,
-  task: false,
-  time: false,
-  time_duration: false,
-  time_units: false,
-  difficulty: false,
-  points: true,
-  day: false,
-  goalId: true,
+const editableDefaultTaskProperties = {
+  id: false,
+  task: true,
+  time: true,
+  timeDuration: true,
+  timeUnits: true,
+  difficulty: true,
+  points: false,
+  day: true,
+  goalId: false,
+  customProperties: true,
 };
 
 export const createEditableTaskObject = obj => {
   const editableTaskObject = {};
   Object.keys(obj).forEach(property => {
-    if (!notEditableDefaultTaskProperties[property]) {
+    if (editableDefaultTaskProperties[property]) {
       editableTaskObject[property] = obj[property];
     }
   });
@@ -26,7 +27,7 @@ export const createEditableTaskObject = obj => {
 export const createEditableGoalObject = obj => {
   const editableTaskObject = {};
   Object.keys(obj).forEach(property => {
-    if (!notEditableDefaultTaskProperties[property]) {
+    if (!editableDefaultTaskProperties[property]) {
       editableTaskObject[property] = obj[property];
     }
   });
@@ -67,8 +68,8 @@ export const baseInputCoersion = (value, type) => {
 const defaultTaskValidationProperties = {
   task: validationTypes.text,
   time: validationTypes.time,
-  time_duration: validationTypes.number,
-  time_units: validationTypes.timeUnits,
+  timeDuration: validationTypes.number,
+  timeUnits: validationTypes.timeUnits,
   difficulty: validationTypes.number,
   day: validationTypes.text,
 };

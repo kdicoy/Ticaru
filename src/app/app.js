@@ -13,7 +13,6 @@ import Header from './Header';
 import Routes from './routes';
 import theme from './themes';
 import { setScreenSize } from '../modules/actions/general';
-import './app.css';
 
 class App extends Component {
   componentWillMount() {

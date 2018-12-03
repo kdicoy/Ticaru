@@ -31,23 +31,18 @@ class InputGoalField extends PureComponent {
       goalText: this.props.goalInitialInput,
     };
   }
+
   handleGoalTextChange = event => {
     this.setState({ goalText: event.target.value });
   };
+
   render() {
-    const { goalType, timeToUpdate } = this.props;
+    const { goalType } = this.props;
+    const { goalText } = this.state;
     return (
       <FlexVertCentered>
-        {goalType}:
-        {timeToUpdate ? (
-          <TextInput
-            style={{ padding: '5px', width: 'auto', fontWeight: 400 }}
-            value={this.state.goalText}
-            onChange={this.handleGoalTextChange}
-          />
-        ) : (
-          <BorderedDiv>{this.state.goalText}</BorderedDiv>
-        )}
+        {`${goalType}:`}
+        <BorderedDiv>{goalText}</BorderedDiv>
       </FlexVertCentered>
     );
   }

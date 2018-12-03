@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { SuccessIcon, EditIcon } from '../../../assets/icons';
 
-const TaskComponent = ({
-  item,
-  resolveTask,
-  goalColors,
-  openModalAndUpdateConents,
-}) => {
-  const { task, time, time_duration, time_units, difficulty, points } = item;
+const UnstyledButton = styled.button`
+  border: none;
+  padding: 0px;
+  background: transparent;
+  outline: none;
+`;
+
+const TaskComponent = ({ item, resolveTask, goalColor, openEditTaskModal }) => {
+  const { task, time, timeDuration, timeUnits, difficulty, points } = item;
   return (
     <div
       style={{
@@ -16,12 +20,21 @@ const TaskComponent = ({
         alignItems: 'center',
         flexDirection: 'row',
         borderRadius: '5px',
-        ...goalColors,
+        ...goalColor,
       }}
     >
-      <button onClick={() => openModalAndUpdateConents(item, 'task')}>
-        (Edit)
-      </button>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '10px',
+        }}
+      >
+        <UnstyledButton type="button" onClick={openEditTaskModal}>
+          <EditIcon width={24} height={24} />
+        </UnstyledButton>
+      </div>
       <div
         style={{
           width: '50%',
@@ -42,17 +55,15 @@ const TaskComponent = ({
         }}
       >
         <div>{time}</div>
-        <div>
-          {time_duration} {time_units}
-        </div>
+        <div>{`${timeDuration} ${timeUnits}`}</div>
         <div>
           {difficulty}
           /8
         </div>
-        <div>{points} points </div>
-        <button className="resolve-circle-button" onClick={resolveTask(item)}>
-          <i className="ion-ios-arrow-down" />
-        </button>
+        <div>{`${points} points`}</div>
+        <UnstyledButton type="button" onClick={resolveTask(item)}>
+          <SuccessIcon width={24} height={24} />
+        </UnstyledButton>
       </div>
     </div>
   );
@@ -61,8 +72,8 @@ const TaskComponent = ({
 TaskComponent.propTypes = {
   item: PropTypes.shape({}).isRequired,
   resolveTask: PropTypes.func.isRequired,
-  goalColors: PropTypes.shape({}).isRequired,
-  openModalAndUpdateConents: PropTypes.func.isRequired,
+  goalColor: PropTypes.shape({}).isRequired,
+  openEditTaskModal: PropTypes.func.isRequired,
 };
 
 export default TaskComponent;

@@ -13,7 +13,7 @@ export const getGoalsState = createSelector(getGoals, goalsList => goalsList);
 
 const getGoalsColors = state => state.goals.goalsColors;
 
-export const getGoalsColorState = createSelector(
+export const getGoalsColorsState = createSelector(
   getGoalsColors,
   goalsColors => goalsColors
 );
