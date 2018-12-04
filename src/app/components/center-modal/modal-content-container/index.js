@@ -76,11 +76,6 @@ class ModalContentContainer extends PureComponent {
     closeModalAndClearConents();
   };
 
-  createGoalAndCloseModal = () => {
-    const { addGoal } = this.props;
-    addGoal(this.state);
-  };
-
   render() {
     const {
       modalContentType,
@@ -135,7 +130,6 @@ ModalContentContainer.propTypes = {
   userInputGoalProperties: PropTypes.shape({}).isRequired,
   updateWithEditedTask: PropTypes.func.isRequired,
   closeModalAndClearConents: PropTypes.func.isRequired,
-  addGoal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

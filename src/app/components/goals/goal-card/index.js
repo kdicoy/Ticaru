@@ -3,7 +3,7 @@ import InputGoalField from './inputGoalField';
 
 const GoalCard = ({ goal, resolveGoal }) => {
   const {
-    id,
+    finalGoal,
     quarterly,
     monthly,
     weekly,
@@ -22,7 +22,7 @@ const GoalCard = ({ goal, resolveGoal }) => {
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
       }}
     >
-      <InputGoalField goalType="Final Goal" goalInitialInput={id} />
+      <InputGoalField goalType="Final Goal" goalInitialInput={finalGoal} />
       {quarterly && (
         <InputGoalField
           goalType="Quarterly Goal"

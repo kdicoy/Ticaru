@@ -4,19 +4,19 @@ import { FormField, TextInput } from 'grommet';
 
 class ResponseInput extends PureComponent {
   render() {
-    const { questionText } = this.props;
+    const { questionText, currentInput, handleCurrentInputChange } = this.props;
 
     return (
       <FormField label={questionText}>
-        <TextInput />
+        <TextInput value={currentInput} onChange={handleCurrentInputChange} />
       </FormField>
     );
   }
 }
 
 ResponseInput.propTypes = {
-  currentStep: PropTypes.number.isRequired,
-  expectedStep: PropTypes.number.isRequired,
+  currentInput: PropTypes.string.isRequired,
   questionText: PropTypes.string.isRequired,
+  handleCurrentInputChange: PropTypes.func.isRequired,
 };
 export default ResponseInput;

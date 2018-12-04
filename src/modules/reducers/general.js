@@ -5,6 +5,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
+  console.log(state.screenSize, 'SCREEN SIZE');
   switch (action.type) {
     case types.SET_SCREEN_SIZE:
       return {

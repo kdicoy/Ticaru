@@ -4,7 +4,8 @@ import * as types from '../actionTypes/goals';
 const initialState = {
   goalsList: [
     {
-      id: '12% Body Fat',
+      id: 'GOAL1',
+      finalGoal: '12% Body Fat',
       quarterly: '18%',
       monthly: '20%',
       weekly: '22%',
@@ -14,7 +15,8 @@ const initialState = {
       color: 'green',
     },
     {
-      id: 'Finish Website MVP',
+      id: 'GOAL2',
+      finalGoal: 'Finish Website MVP',
       quarterly: 'Finish Website MVP',
       monthly: 'Finish frontend',
       weekly: 'dashboard structure in place',
@@ -24,7 +26,8 @@ const initialState = {
       color: 'red',
     },
     {
-      id: 'Update Creator Arcade',
+      id: 'GOAL3',
+      finalGoal: 'Update Creator Arcade',
       weekly: 'Update Creator Arcade',
       startDate: '11-17-2018',
       endDate: '11-18-2018',
@@ -32,7 +35,8 @@ const initialState = {
       color: 'black',
     },
     {
-      id: 'Find a new job',
+      id: 'GOAL4',
+      finalGoal: 'Find a new job',
       weekly: 'Send out Resumes',
       startDate: '11-16-2018',
       endDate: 'Until Found',
@@ -41,25 +45,25 @@ const initialState = {
     },
   ],
   goalsColors: {
-    'Find a new job': {
+    GOAL4: {
       backgroundColor: 'purple',
       color: 'white',
     },
-    'Update Creator Arcade': {
+    GOAL3: {
       backgroundColor: 'lightgreen',
       color: 'black',
     },
-    'Finish Website MVP': {
+    GOAL2: {
       backgroundColor: 'pink',
       color: 'red',
     },
-    '12% Body Fat': {
+    GOAL1: {
       backgroundColor: 'lightblue',
       color: 'green',
     },
   },
   userInputGoalProperties: {
-    '12% Body Fat': {
+    GOAL1: {
       weight: {
         type: 'number',
         required: true,
